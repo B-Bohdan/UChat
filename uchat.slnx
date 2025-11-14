@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="uchat/uchat.csproj" />
+  <Project Path="uchat_server/uchat_server.csproj" />
+</Solution>
