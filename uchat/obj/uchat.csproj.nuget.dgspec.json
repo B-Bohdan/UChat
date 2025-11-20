@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\KakoytoChel228\\source\\repos\\uchat\\uchat\\uchat.csproj": {}
+    "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj": {}
   },
   "projects": {
-    "C:\\Users\\KakoytoChel228\\source\\repos\\uchat\\uchat\\uchat.csproj": {
+    "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\repos\\uchat\\uchat\\uchat.csproj",
+        "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
         "projectName": "uchat",
-        "projectPath": "C:\\Users\\KakoytoChel228\\source\\repos\\uchat\\uchat\\uchat.csproj",
+        "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
         "packagesPath": "C:\\Users\\KakoytoChel228\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\KakoytoChel228\\source\\repos\\uchat\\uchat\\obj\\",
+        "outputPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

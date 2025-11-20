@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\KakoytoChel228\source\repos\uchat\uchat\obj\Debug\net10.0-windows\
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\
 uchat
 none
 false
 TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\KakoytoChel228\source\repos\uchat\uchat\App.xaml
-3-691195442
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\App.xaml
+5990850923
 
-19315916293
+22-1592803452
 223-544336420
-Views\MainWindow.xaml;Views\Pages\MainPage.xaml;Views\Resources\Styles.xaml;
+Views\MainWindow.xaml;Views\Pages\AuthorizationPage.xaml;Views\Pages\LoadingPage.xaml;Views\Pages\MainPage.xaml;Views\Resources\Styles.xaml;
 
-True
+False
 

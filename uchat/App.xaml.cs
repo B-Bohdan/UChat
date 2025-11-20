@@ -29,7 +29,7 @@ namespace uchat
             // Ініціалізуємо навігацію, за замовчування відкриваємо головну сторінку
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
-            navigationService.ChangePage<MainPage>();
+            navigationService.ChangePage<AuthorizationPage>();
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -44,13 +44,15 @@ namespace uchat
             #region Pages
 
             serviceCollection.AddTransient<MainPage>();
+            serviceCollection.AddTransient<AuthorizationPage>();
             #endregion
-
 
             #region ViewModels
 
             serviceCollection.AddSingleton<AppState>();
             serviceCollection.AddTransient<MainPageViewModel>();
+            serviceCollection.AddTransient<AuthorizationPageViewModel>();
+            serviceCollection.AddTransient<LoadingPage>();
             #endregion
 
             #region Services

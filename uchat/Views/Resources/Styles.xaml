@@ -2,5 +2,112 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!--Зберігає в собі всі кастомні стилі для контролів-->
+
+    <!--Colors-->
+    <LinearGradientBrush x:Key="AccentBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#84ADFF" Offset="0.0" />
+        <GradientStop Color="#2970FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#050F21"/>
+    <SolidColorBrush x:Key="LogoForegroundColorBrush" Color="#B2CCFF"/>
     
+    <SolidColorBrush x:Key="LoginButtonColorBrush" Color="#ffffff"/>
+    <SolidColorBrush x:Key="LoginButtonForegroundBrush" Color="#000000"/>
+    <SolidColorBrush x:Key="LoginButtonMouseOverBrush" Color="#d7d7d9"/>
+
+    <!--Geometyries-->
+    <CombinedGeometry x:Key="Logo" GeometryCombineMode="Exclude">
+        <CombinedGeometry.Geometry1>
+            <GeometryGroup FillRule="EvenOdd">
+
+                <!--Cirlce-->
+                <EllipseGeometry Center="200,200" RadiusX="110" RadiusY="110" />
+
+                <!-- Triangle -->
+                <PathGeometry>
+                    <PathGeometry.Transform>
+                        <TranslateTransform X="-14" Y="0" />
+                    </PathGeometry.Transform>
+                    <PathFigure StartPoint="190, 175" IsClosed="True">
+                        <LineSegment Point="275, 40" />
+                        <LineSegment Point="355, 180" />
+                    </PathFigure>
+                </PathGeometry>
+
+                <!-- Star -->
+                <PathGeometry>
+                    <PathGeometry.Transform>
+                        <TranslateTransform X="10" Y="-27" />
+                    </PathGeometry.Transform>
+                    <PathFigure StartPoint="170, 280" IsClosed="True">
+                        <LineSegment Point="185, 320" />
+                        <LineSegment Point="230, 320" />
+                        <LineSegment Point="195, 350" />
+                        <LineSegment Point="210, 400" />
+                        <LineSegment Point="170, 375" />
+                        <LineSegment Point="130, 400" />
+                        <LineSegment Point="145, 350" />
+                        <LineSegment Point="110, 320" />
+                        <LineSegment Point="155, 320" />
+                    </PathFigure>
+                </PathGeometry>
+
+            </GeometryGroup>
+        </CombinedGeometry.Geometry1>
+        <CombinedGeometry.Geometry2>
+            <!-- Small circle -->
+            <EllipseGeometry Center="149,358" RadiusX="30" RadiusY="30" />
+        </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+
+    <!--Styles-->
+    <Style x:Key="LoginButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource LoginButtonColorBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource LoginButtonForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image
+                                Grid.Column="0"
+                                Width="20"
+                                Margin="5"
+                                Source="../Assets/google.png"/>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="0,0,10,0"
+                                Text="Sign in with Google"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource LoginButtonMouseOverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource AccentBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+   
 </ResourceDictionary>
