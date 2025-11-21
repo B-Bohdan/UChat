@@ -442,6 +442,16 @@
         "runtime": {
           "lib/net6.0-windows7.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
         }
+      },
+      "uchat.modelbase/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/uchat.modelbase.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/uchat.modelbase.dll": {}
+        }
       }
     }
   },
@@ -1001,12 +1011,18 @@
         "sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512",
         "sqlitepclraw.provider.e_sqlite3.nuspec"
       ]
+    },
+    "uchat.modelbase/1.0.0": {
+      "type": "project",
+      "path": "../uchat.modelbase/uchat.modelbase.csproj",
+      "msbuildProject": "../uchat.modelbase/uchat.modelbase.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0-windows7.0": [
       "Microsoft.EntityFrameworkCore.Sqlite >= 10.0.0",
-      "Microsoft.Extensions.DependencyInjection >= 10.0.0"
+      "Microsoft.Extensions.DependencyInjection >= 10.0.0",
+      "uchat.modelbase >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1041,7 +1057,11 @@
       "frameworks": {
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj": {
+              "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

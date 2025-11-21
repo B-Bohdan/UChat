@@ -62,8 +62,6 @@ namespace uchat
             serviceCollection.AddSingleton<INavigationService, NavigationService>();
             #endregion
 
-            //... Додаємо сервіси сюди
-
             Services = serviceCollection.BuildServiceProvider();
         }
     }

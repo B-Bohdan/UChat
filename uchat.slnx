@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="uchat.modelbase/uchat.modelbase.csproj" Id="e70b1231-5e65-4d71-8808-bcb201bd43f3" />
   <Project Path="uchat/uchat.csproj" />
   <Project Path="uchat_server/uchat_server.csproj" />
 </Solution>

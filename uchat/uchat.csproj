@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\uchat.modelbase\uchat.modelbase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Views\Assets\google.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
