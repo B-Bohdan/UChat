@@ -1,4 +1,5 @@
-﻿using uchat.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using uchat.Models;
 using uchat.Services.IServices;
 using uchat.ViewModels.Tools;
 
@@ -13,13 +14,15 @@ namespace uchat.ViewModels
         public AppState ApplicationState { get; private set; }
         public IConfigurationService ConfigurationService { get; private set; }
         public IConnectionService ConnectionService { get; private set; }
+        public IDbContextFactory<ApplicationContext> DbContextFactory { get; private set; }
 
         public ViewModelBase(AppState appState, IConfigurationService configurationService, 
-            IConnectionService connectionService)
+            IConnectionService connectionService, IDbContextFactory<ApplicationContext> dbContextFactory)
         {
             ApplicationState = appState;
             ConfigurationService = configurationService;
             ConnectionService = connectionService;
+            DbContextFactory = dbContextFactory;
         }
     }
 }

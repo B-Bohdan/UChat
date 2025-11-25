@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using System.Windows;
 using System.Windows.Threading;
+using uchat.Models;
 using uchat.Services;
 using uchat.Services.IServices;
 using uchat.ViewModels;
@@ -10,7 +13,6 @@ namespace uchat
 {
     public partial class App : Application
     {
-
         public static IServiceProvider Services { get; private set; } = null!;
 
         public App()
@@ -46,12 +48,28 @@ namespace uchat
         {
             var serviceCollection = new ServiceCollection();
 
+            // Підключення фабрики для контексту БД
+            serviceCollection.AddDbContextFactory<ApplicationContext>(options =>
+            {
+                string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                string folderPath = Path.Combine(appDataFolder, "UChat");
+
+                // Перевіряє або створює директорію
+                Directory.CreateDirectory(folderPath);
+
+                string dbPath = Path.Combine(folderPath, "ApplicationDB.db");
+
+                options.UseSqlite($"Data Source={dbPath}");
+            });
+
+            // Підключення сторінок у DI контейнер
             #region Pages
 
             serviceCollection.AddTransient<MainPage>();
             serviceCollection.AddTransient<AuthorizationPage>();
             #endregion
 
+            // Підключення ViewModels у DI контейнер
             #region ViewModels
 
             serviceCollection.AddSingleton<AppState>();
@@ -60,6 +78,7 @@ namespace uchat
             serviceCollection.AddTransient<LoadingPage>();
             #endregion
 
+            // Підключення сервісів у DI контейнер
             #region Services
 
             serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();

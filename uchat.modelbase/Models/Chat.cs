@@ -6,11 +6,8 @@ namespace uchat.modelbase.Models
     {
         public int Id { get; set; }
         public string Tag { get; set; } = null!;
-        public int FirstUserId { get; set; }
-        public User FirstUser { get; set; } = null!;
-        public int SecondUserId { get; set; }
-        public User SecondUser { get; set; } = null!;
         public double DialogTemperature { get; set; }
-        public List<Message> Messages { get; set; } = new();
+        public virtual List<User> Participants { get; set; } = new();
+        public virtual List<Message> Messages { get; set; } = new();
     }
 }

@@ -1,10 +1,13 @@
-﻿using uchat.Services.IServices;
+﻿using Microsoft.EntityFrameworkCore;
+using uchat.Models;
+using uchat.Services.IServices;
 
 namespace uchat.ViewModels
 {
     public class AuthorizationPageViewModel : ViewModelBase
     {
-        public AuthorizationPageViewModel(AppState appState, IConfigurationService configurationService, IConnectionService connectionService) : base(appState, configurationService, connectionService)
+        public AuthorizationPageViewModel(AppState appState, IConfigurationService configurationService,
+            IConnectionService connectionService, IDbContextFactory<ApplicationContext> appContextFactory) : base(appState, configurationService, connectionService, appContextFactory)
         {
 
         }

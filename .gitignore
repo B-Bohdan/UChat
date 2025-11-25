@@ -1,0 +1,17 @@
+## Build folders
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio cache and options
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Databases 
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3

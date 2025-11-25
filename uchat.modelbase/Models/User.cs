@@ -17,6 +17,6 @@
         public string Email { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
         public Status UserStatus { get; set; }
-        public List<Chat> Chats { get; set; } = new();
+        public virtual List<Chat> Chats { get; set; } = new();
     }
 }

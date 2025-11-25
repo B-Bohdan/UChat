@@ -26,7 +26,6 @@ namespace uchat.Services
             {
                 _settings = new Dictionary<string, string>
                 {
-                    { "DBConnectionString", "" },
                     { "UILanguage", "UA" },
                     { "StartPageTag", "" },
                     { "ServerConnectionString", "" },
