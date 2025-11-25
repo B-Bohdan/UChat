@@ -6,6 +6,13 @@ namespace uchat.Services
 {
     public class NavigationService : INavigationService
     {
+        public enum NavigationTags
+        {
+            MainPage,
+            AuthorizationPage,
+            LoadingPage
+        }
+
         private readonly IServiceProvider _serviceProvider;
         private Frame? _frame;
 

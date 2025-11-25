@@ -18,7 +18,7 @@ namespace uchat
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             // Ініціалізуємо головне вікно та показуємо його
             MainWindow mainWindow = new MainWindow();
@@ -26,10 +26,15 @@ namespace uchat
 
             IninitializeServices();
 
+            // Ініціалізуємо конфігурацію додатку
+            IConfigurationService configurationService = Services.GetRequiredService<IConfigurationService>();
+            await configurationService.InitAsync();
+
             // Ініціалізуємо навігацію, за замовчування відкриваємо головну сторінку
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
-            navigationService.ChangePage<AuthorizationPage>();
+
+            TagChecker(configurationService.Get<string>("StartPageTag"), navigationService);
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -63,6 +68,22 @@ namespace uchat
             #endregion
 
             Services = serviceCollection.BuildServiceProvider();
+        }
+
+        private void TagChecker(string? startPageTag, INavigationService navigationService)
+        {
+            switch (startPageTag)
+            {
+                case nameof(NavigationService.NavigationTags.MainPage):
+                    navigationService.ChangePage<MainPage>();
+                    break;
+                case nameof(NavigationService.NavigationTags.AuthorizationPage):
+                    navigationService.ChangePage<AuthorizationPage>();
+                    break;
+                default:
+                    navigationService.ChangePage<AuthorizationPage>();
+                    break;
+            }
         }
     }
 
