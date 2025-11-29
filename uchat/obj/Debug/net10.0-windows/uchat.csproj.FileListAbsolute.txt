@@ -139,3 +139,11 @@ C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-window
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\uchat.pdb
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\uchat.genruntimeconfig.cache
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\ref\uchat.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.Extensions.Features.dll

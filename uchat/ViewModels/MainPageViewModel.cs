@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.EntityFrameworkCore;
+using uchat.modelbase.Models;
 using uchat.Models;
 using uchat.Services.IServices;
 

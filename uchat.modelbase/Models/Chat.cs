@@ -9,5 +9,8 @@ namespace uchat.modelbase.Models
         public double DialogTemperature { get; set; }
         public virtual List<User> Participants { get; set; } = new();
         public virtual List<Message> Messages { get; set; } = new();
+        public DateTime CreatedAt { get; set; }
+        public User Creator { get; set; } = null!;
+        public int CreatorId { get; set; }
     }
 }

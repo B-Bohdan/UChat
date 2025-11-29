@@ -11,9 +11,15 @@ using uchat.Views.Pages;
 
 namespace uchat
 {
+    // 1. Написать обертку для моделей данных под ViewModel'и
+    // 2. Добавить авторизацию через Google API и изменить момент первого подключения к хосту
+    // 3. Занятся версткой главной страницы
+
     public partial class App : Application
     {
         public static IServiceProvider Services { get; private set; } = null!;
+
+        public static string? ServerBaseUrl { get; private set; }
 
         public App()
         {
@@ -22,21 +28,41 @@ namespace uchat
 
         protected async override void OnStartup(StartupEventArgs e)
         {
-            // Ініціалізуємо головне вікно та показуємо його
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-
             IninitializeServices();
 
             // Ініціалізуємо конфігурацію додатку
             IConfigurationService configurationService = Services.GetRequiredService<IConfigurationService>();
             await configurationService.InitAsync();
 
+            if (e.Args.Length == 2)
+            {
+                string ip = e.Args[0];
+                string port = e.Args[1];
+                // Формируем адрес из аргументов
+                ServerBaseUrl = $"http://{ip}:{port}/chatHub";
+            }
+            else
+            {
+                ServerBaseUrl = configurationService.Get<string>("ServerConnectionString");
+            }
+
+            // Ініціалізуємо головне вікно та показуємо його
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+
             // Ініціалізуємо навігацію, за замовчування відкриваємо головну сторінку
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
 
             TagChecker(configurationService.Get<string>("StartPageTag"), navigationService);
+
+            if(string.IsNullOrEmpty(ServerBaseUrl))
+            {
+                throw new InvalidDataException("Server base URL is null or empty.");
+            }
+
+            var connectionService = Services.GetRequiredService<IConnectionService>();
+            await connectionService.InitializeConnection(ServerBaseUrl);
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
