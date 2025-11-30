@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("uchat_server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91be853e6f42763d24b3f5d4ad44c5c1d876c722")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abe116e01a8d644a53d8e881af8b0df72aac22f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("uchat_server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("uchat_server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

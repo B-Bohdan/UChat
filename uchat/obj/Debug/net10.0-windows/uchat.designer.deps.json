@@ -6,6 +6,137 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
+      "Google.Apis/1.73.0": {
+        "dependencies": {
+          "Google.Apis.Core": "1.73.0"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.dll": {
+            "assemblyVersion": "1.73.0.0",
+            "fileVersion": "1.73.0.0"
+          }
+        }
+      },
+      "Google.Apis.Auth/1.73.0": {
+        "dependencies": {
+          "Google.Apis": "1.73.0",
+          "Google.Apis.Core": "1.73.0",
+          "System.Management": "7.0.2"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Auth.dll": {
+            "assemblyVersion": "1.73.0.0",
+            "fileVersion": "1.73.0.0"
+          }
+        }
+      },
+      "Google.Apis.Core/1.73.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.4"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Core.dll": {
+            "assemblyVersion": "1.73.0.0",
+            "fileVersion": "1.73.0.0"
+          }
+        }
+      },
+      "Google.Apis.Oauth2.v2/1.68.0.1869": {
+        "dependencies": {
+          "Google.Apis": "1.73.0",
+          "Google.Apis.Auth": "1.73.0"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Oauth2.v2.dll": {
+            "assemblyVersion": "1.68.0.1869",
+            "fileVersion": "1.68.0.1869"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Features": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Connections.Abstractions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Http.Connections.Client/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Connections.Common": "10.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Http.Connections.Client.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Http.Connections.Common/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Connections.Abstractions": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Http.Connections.Common.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.SignalR.Client/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Connections.Client": "10.0.0",
+          "Microsoft.AspNetCore.SignalR.Client.Core": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.SignalR.Client.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.SignalR.Client.Core/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.SignalR.Common": "10.0.0",
+          "Microsoft.AspNetCore.SignalR.Protocols.Json": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection": "10.0.0",
+          "Microsoft.Extensions.Logging": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.SignalR.Client.Core.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.SignalR.Common/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Connections.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.SignalR.Common.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.SignalR.Protocols.Json/10.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.SignalR.Common": "10.0.0"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.SignalR.Protocols.Json.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
       "Microsoft.Data.Sqlite.Core/10.0.0": {
         "dependencies": {
           "SQLitePCLRaw.core": "2.1.11"
@@ -144,6 +275,14 @@
           }
         }
       },
+      "Microsoft.Extensions.Features/10.0.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Features.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
       "Microsoft.Extensions.Logging/10.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
@@ -185,6 +324,14 @@
           "lib/net10.0/Microsoft.Extensions.Primitives.dll": {
             "assemblyVersion": "10.0.0.0",
             "fileVersion": "10.0.25.52411"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.4": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.4.30916"
           }
         }
       },
@@ -337,10 +484,103 @@
             "fileVersion": "2.1.11.2622"
           }
         }
+      },
+      "System.Management/7.0.2": {
+        "runtime": {
+          "lib/net7.0/System.Management.dll": {
+            "assemblyVersion": "7.0.0.2",
+            "fileVersion": "7.0.723.27404"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Management.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.2",
+            "fileVersion": "7.0.723.27404"
+          }
+        }
       }
     }
   },
   "libraries": {
+    "Google.Apis/1.73.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TnCjEyV2aCLQ6Zl40OCbEJULDuEkEWc6C/g81KYw5l1PqGo+G7pFZrV+YH8XgUL0JRUanz+IrUp8SsKF4dzkqg==",
+      "path": "google.apis/1.73.0",
+      "hashPath": "google.apis.1.73.0.nupkg.sha512"
+    },
+    "Google.Apis.Auth/1.73.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wEu12uhnRv3zrPBSqv4E2vPH6lYLtc1RPAnU9MJRCMFlBVwZ7Lnq3NfbYXi6VG7EurkYInTaMpeBZkbM/HrAog==",
+      "path": "google.apis.auth/1.73.0",
+      "hashPath": "google.apis.auth.1.73.0.nupkg.sha512"
+    },
+    "Google.Apis.Core/1.73.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vSc7CY4KCP7HE4QTElDx/ExnGLbg9kXb89MS6cdvI+0D4sxvTYb16vGtXmF2jSDMV3iDmykSXdIUPTz8TDS6gg==",
+      "path": "google.apis.core/1.73.0",
+      "hashPath": "google.apis.core.1.73.0.nupkg.sha512"
+    },
+    "Google.Apis.Oauth2.v2/1.68.0.1869": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6gf5dpi6d+sezfRwqEfA9lDfP7OT5ZrQFgiO1r2jDS8rkMpxaS6/mpTsyW/EgcXr8R4NEHIbAN4FvZClRq0+Zg==",
+      "path": "google.apis.oauth2.v2/1.68.0.1869",
+      "hashPath": "google.apis.oauth2.v2.1.68.0.1869.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MPXDzUknemj+sCL/LYOLvU/qIX3o9zCJtKXu9jcwNMQiOvwuv75lV20p3qGENA/ynTH7hOPFqDUEGBT30IvhEA==",
+      "path": "microsoft.aspnetcore.connections.abstractions/10.0.0",
+      "hashPath": "microsoft.aspnetcore.connections.abstractions.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Http.Connections.Client/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7nSER+de0V6mWTcdUqBJZlm1XMz+Y2mTHzL3B/msVF+JfSXXZtKNVC18TI7AeSz4PD//b5qpy8n0RQEIVByfJw==",
+      "path": "microsoft.aspnetcore.http.connections.client/10.0.0",
+      "hashPath": "microsoft.aspnetcore.http.connections.client.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Http.Connections.Common/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VaEGwazymaL4NB+JoAdvM/IaFg5IIg1WXtVgKmD/y3Et2qnPxolAlMXYJrI8k1EPjmoIcXQZHTj47MskRRyRIA==",
+      "path": "microsoft.aspnetcore.http.connections.common/10.0.0",
+      "hashPath": "microsoft.aspnetcore.http.connections.common.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.SignalR.Client/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XHPNPLqPX7CVJ5JuaumTP58sAVrQG4TqFKLFOtN1mZIwgEUHKwtDeMwL0G8dIvy9zcpi7os4CYAHvA1bUUTzVw==",
+      "path": "microsoft.aspnetcore.signalr.client/10.0.0",
+      "hashPath": "microsoft.aspnetcore.signalr.client.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.SignalR.Client.Core/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MrXjT7YNV0e1Jb3Hai6kX/Ot7X2SlONHv5IC5XNGeycTTLu3qitJ7DXZUsPPZs6yanWIOsIKjPEY58ARHdRKGg==",
+      "path": "microsoft.aspnetcore.signalr.client.core/10.0.0",
+      "hashPath": "microsoft.aspnetcore.signalr.client.core.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.SignalR.Common/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pyG6FLV4/EeOQeZ30ra4aUYycJQPT/9ddB91aplMKwEGT5KbEs//WMqMObVGvDREP508EB4QUAKzacSVi30nxw==",
+      "path": "microsoft.aspnetcore.signalr.common/10.0.0",
+      "hashPath": "microsoft.aspnetcore.signalr.common.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.SignalR.Protocols.Json/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-L++SCI4pcG9uo7HTzAFTX33BsZFDHCdukJIK+/S4tgH/kcJlPTp9QS96E4zgOuzXRDrzaunwbFSS2DElTmWGRA==",
+      "path": "microsoft.aspnetcore.signalr.protocols.json/10.0.0",
+      "hashPath": "microsoft.aspnetcore.signalr.protocols.json.10.0.0.nupkg.sha512"
+    },
     "Microsoft.Data.Sqlite.Core/10.0.0": {
       "type": "package",
       "serviceable": true,
@@ -425,6 +665,13 @@
       "path": "microsoft.extensions.dependencymodel/10.0.0",
       "hashPath": "microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512"
     },
+    "Microsoft.Extensions.Features/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kCFjPpfvz0K00xIpe7wJKre1gFJdNIu9+1BYJLklu3GWb+uU4HIjza0uMBQeFGZws9VJos9LeO+PUfvGcre+9g==",
+      "path": "microsoft.extensions.features/10.0.0",
+      "hashPath": "microsoft.extensions.features.10.0.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/10.0.0": {
       "type": "package",
       "serviceable": true,
@@ -453,6 +700,13 @@
       "path": "microsoft.extensions.primitives/10.0.0",
       "hashPath": "microsoft.extensions.primitives.10.0.0.nupkg.sha512"
     },
+    "Newtonsoft.Json/13.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
+    },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
       "type": "package",
       "serviceable": true,
@@ -480,6 +734,13 @@
       "sha512": "sha512-Y/0ZkR+r0Cg3DQFuCl1RBnv/tmxpIZRU3HUvelPw6MVaKHwYYR8YNvgs0vuNuXCMvlyJ+Fh88U1D4tah1tt6qw==",
       "path": "sqlitepclraw.provider.e_sqlite3/2.1.11",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512"
+    },
+    "System.Management/7.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/qEUN91mP/MUQmJnM5y5BdT7ZoPuVrtxnFlbJ8a3kBJGhe2wCzBfnPFtK2wTtEEcf3DMGR9J00GZZfg6HRI6yA==",
+      "path": "system.management/7.0.2",
+      "hashPath": "system.management.7.0.2.nupkg.sha512"
     }
   }
 }

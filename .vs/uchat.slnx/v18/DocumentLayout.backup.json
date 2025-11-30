@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E70B1231-5E65-4D71-8808-BCB201BD43F3}|uchat.modelbase\\uchat.modelbase.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat.modelbase\\models\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E70B1231-5E65-4D71-8808-BCB201BD43F3}|uchat.modelbase\\uchat.modelbase.csproj|solutionrelative:uchat.modelbase\\models\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\viewmodels\\vmentities\\wrapperviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\viewmodels\\vmentities\\wrapperviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat_server\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|solutionrelative:uchat_server\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\viewmodels\\vmpages\\authorizationpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\viewmodels\\vmpages\\authorizationpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,27 +31,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ConnectionService.cs",
-              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
-              "RelativeDocumentMoniker": "uchat\\Services\\ConnectionService.cs",
-              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
-              "RelativeToolTip": "uchat\\Services\\ConnectionService.cs",
-              "ViewState": "AgIAAK8AAAAAAAAAAAAqwMMAAAAAAAAAAAAAAA==",
+              "Title": "ApplicationContext.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\Models\\ApplicationContext.cs",
+              "RelativeDocumentMoniker": "uchat.modelbase\\Models\\ApplicationContext.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\Models\\ApplicationContext.cs",
+              "RelativeToolTip": "uchat.modelbase\\Models\\ApplicationContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-30T14:06:01.601Z",
+              "WhenOpened": "2025-11-30T20:05:41.615Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "WrapperViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMEntities\\WrapperViewModel.cs",
-              "RelativeDocumentMoniker": "uchat\\ViewModels\\VMEntities\\WrapperViewModel.cs",
-              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMEntities\\WrapperViewModel.cs",
-              "RelativeToolTip": "uchat\\ViewModels\\VMEntities\\WrapperViewModel.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwBUAAAAAAAAAAAAAAA==",
+              "Title": "ChatHub.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Hubs\\ChatHub.cs",
+              "RelativeDocumentMoniker": "uchat_server\\Hubs\\ChatHub.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Hubs\\ChatHub.cs",
+              "RelativeToolTip": "uchat_server\\Hubs\\ChatHub.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAIwIQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-30T14:03:33.975Z",
+              "WhenOpened": "2025-11-30T20:03:26.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ConnectionService.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
+              "RelativeDocumentMoniker": "uchat\\Services\\ConnectionService.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
+              "RelativeToolTip": "uchat\\Services\\ConnectionService.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAA7wN4AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T19:59:52.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthorizationPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMPages\\AuthorizationPageViewModel.cs",
+              "RelativeDocumentMoniker": "uchat\\ViewModels\\VMPages\\AuthorizationPageViewModel.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMPages\\AuthorizationPageViewModel.cs",
+              "RelativeToolTip": "uchat\\ViewModels\\VMPages\\AuthorizationPageViewModel.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAgwC0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T18:39:06.669Z",
               "EditorCaption": ""
             }
           ]

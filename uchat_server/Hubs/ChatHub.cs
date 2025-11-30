@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
@@ -6,13 +7,6 @@ using uchat.Models;
 
 namespace uchat_server.Hubs
 {
-    // + 1. Налаживаем подключение, когда пользователь делает это впервые (На стороне клиента)
-    // + 1.1. Добавить возможность подключить клиент вручную по указаному адресу сервера через терминал
-    // + 2. Наводим порядок в InitializeConnecion на клиенте, групируем все и дописываем недостающее
-    // + 3. Добавляем методы для выгрузки данных чатов, и данных сообщений пагинацией
-
-    // 5. Будет время, пишем обертку для модели данных на клиенте
-
     public class ChatHub : Hub
     {
         private readonly ApplicationContext _applicationContext;
@@ -130,30 +124,55 @@ namespace uchat_server.Hubs
 
         #region User Interactions
 
-        public async Task CheckUser(User user)
+        public async Task LoginWithGoogle(string googleToken)
         {
-            var userInSystem = await _applicationContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email); // Лучше async
-
-            if (userInSystem == null)
+            try
             {
-                User newUser = new User()
+                // Валідація токена
+                var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken);
+
+                // Отримаємо дані
+                string safeEmail = payload.Email;
+                string safeFirstName = payload.GivenName;
+                string safeLastName = payload.FamilyName;
+
+                // Шукаємо користувача в системі
+                var userInSystem = await _applicationContext.Users
+                    .FirstOrDefaultAsync(u => u.Email == safeEmail);
+
+                // Якщо немає, то створюємо його на основі отриманих даних
+                if (userInSystem == null)
                 {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    MiddleName = user.MiddleName,
-                    Email = user.Email,
-                    CreatedAt = DateTime.UtcNow.Date,
-                    UserStatus = User.Status.Online
-                };
+                    User newUser = new User()
+                    {
+                        FirstName = safeFirstName,
+                        LastName = safeLastName,
+                        Email = safeEmail,
+                        CreatedAt = DateTime.UtcNow.Date,
+                        UserStatus = User.Status.Online
+                    };
 
-                await _applicationContext.Users.AddAsync(newUser);
-                await _applicationContext.SaveChangesAsync();
+                    await _applicationContext.Users.AddAsync(newUser);
+                    await _applicationContext.SaveChangesAsync();
 
-                await Clients.Caller.SendAsync("AuthorizationConfirmed", newUser);
+                    await Clients.Caller.SendAsync("AuthorizationConfirmed", newUser);
+                }
+                else
+                {
+                    userInSystem.UserStatus = User.Status.Online;
+                    await _applicationContext.SaveChangesAsync();
+
+                    await Clients.Caller.SendAsync("AuthorizationConfirmed", userInSystem);
+                }
             }
-            else
+            catch (InvalidJwtException ex)
             {
-                await Clients.Caller.SendAsync("AuthorizationConfirmed", userInSystem);
+                // Токен не валідний, потрібна переавторизація або була спроба підробки
+                await Clients.Caller.SendAsync("AuthorizationError", $"Ошибка валидации Google токена: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("AuthorizationError", $"Внутренняя ошибка сервера: {ex.Message}");
             }
         }
 

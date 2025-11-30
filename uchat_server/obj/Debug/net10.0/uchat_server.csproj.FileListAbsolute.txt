@@ -69,3 +69,10 @@ C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\obj\Debug\net10.0\uchat_server.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Google.Apis.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Google.Apis.Auth.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Google.Apis.Core.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\Newtonsoft.Json.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\System.CodeDom.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\System.Management.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat_server\bin\Debug\net10.0\runtimes\win\lib\net7.0\System.Management.dll

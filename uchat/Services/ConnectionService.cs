@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Oauth2.v2;
+using Google.Apis.Util.Store;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
 using uchat.Models;
@@ -210,9 +214,12 @@ namespace uchat.Services
             }
         }
 
-        public Task CheckUserAuthorization(string emailAddress)
+        public async Task CheckUserAuthorization(string googleToken)
         {
-            throw new NotImplementedException();
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("LoginWithGoogle", googleToken);
+            }
         }
 
         public Task SendMessage(int senderId, int chatId, Message message)
@@ -229,6 +236,47 @@ namespace uchat.Services
             if (_hubConnection != null)
                 return _hubConnection.State;
             return null;
+        }
+
+        public async Task<string> GetGoogleIdTokenAsync()
+        {
+            UserCredential credential;
+
+            // Вказуємо які дані беремо: пошту, ім'я та призвище
+            string[] scopes = {
+                     Oauth2Service.Scope.UserinfoEmail,
+                     Oauth2Service.Scope.UserinfoProfile
+                };
+
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = "uchat.client_secret.json";
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (stream == null)
+                {
+                    throw new Exception("Failed to find client_secrets.json in embedded resources!");
+                }
+
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.FromStream(stream).Secrets,
+                    scopes,
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore("token.json", true));
+            }
+
+            if (credential.Token.IsStale)
+            {
+                bool success = await credential.RefreshTokenAsync(CancellationToken.None);
+                if (!success)
+                {
+                    // Тут потрібно перенаправляти на сторінку авторизації знову.
+                }
+            }
+
+            // 4. Возвращаем именно IdToken (это та самая JWT строка для сервера)
+            return credential.Token.IdToken;
         }
     }
 }

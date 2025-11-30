@@ -27,6 +27,7 @@ namespace uchat.Services.IServices
         public event Action<User, int>? OnUserKickedFromChat;
         public event Action<User, int>? OnUserLeavedTheChat;
 
+        public Task<string> GetGoogleIdTokenAsync();
 
         public Task InitializeConnection(string serverBaseUrl);
 
@@ -36,7 +37,7 @@ namespace uchat.Services.IServices
 
         public HubConnectionState? GetConnectionState();
 
-        public Task CheckUserAuthorization(string emailAddress);
+        public Task CheckUserAuthorization(string googleToken);
         public Task SendMessage(int senderId, int chatId, Message message);
     }
 }

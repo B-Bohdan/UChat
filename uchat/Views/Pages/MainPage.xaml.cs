@@ -37,7 +37,6 @@ namespace uchat.Views.Pages
                 {
                     FirstName = "TestUser",
                     LastName = "Test User",
-                    MiddleName = "Testovich",
                     Email = "test@test.com",
                     CreatedAt = DateTime.UtcNow
                 };

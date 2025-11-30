@@ -3,10 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vmp="clr-namespace:uchat.ViewModels.VMPages"
       xmlns:local="clr-namespace:uchat.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AuthorizationPage">
+      Title="AuthorizationPage"
+      d:DataContext="{d:DesignInstance Type=vmp:AuthorizationPageViewModel, IsDesignTimeCreatable=False}">
 
     <Border Background="{StaticResource BackgroundBrush}">
         <Grid>
@@ -60,7 +62,8 @@
                     <Button 
                         Style="{DynamicResource LoginButtonStyle}" 
                         x:Name="LoginBtn"
-                        Height="30">
+                        Height="30"
+                        Command="{Binding SignInCommand}">
                     </Button>
                 </StackPanel>
             </Grid>

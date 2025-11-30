@@ -18,8 +18,6 @@ namespace uchat.ViewModels.VMEntities
                     Model.FirstName = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FullName));
-                    OnPropertyChanged(nameof(Initials));
-                    OnPropertyChanged(nameof(ShortName));
                 }
             }
         }
@@ -34,23 +32,6 @@ namespace uchat.ViewModels.VMEntities
                     Model.LastName = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(FullName));
-                    OnPropertyChanged(nameof(ShortName));
-                }
-            }
-        }
-
-        public string MiddleName
-        {
-            get => Model.MiddleName;
-            set
-            {
-                if (Model.MiddleName != value)
-                {
-                    Model.MiddleName = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(FullName));
-                    OnPropertyChanged(nameof(Initials));
-                    OnPropertyChanged(nameof(ShortName));
                 }
             }
         }
@@ -58,17 +39,7 @@ namespace uchat.ViewModels.VMEntities
         /// <summary>
         /// Represent full name of user
         /// </summary>
-        public string FullName => $"{FirstName} {LastName} {MiddleName}".Trim();
-
-        /// <summary>
-        /// Represent initials of user
-        /// </summary>
-        public string Initials => $"{FirstName.FirstOrDefault()}. {MiddleName.FirstOrDefault()}.".ToUpper();
-
-        /// <summary>
-        /// Represent Short form of the user name
-        /// </summary>
-        public string ShortName => $"{Initials} {LastName}";
+        public string FullName => $"{FirstName} {LastName}".Trim();
 
         public string Email
         {

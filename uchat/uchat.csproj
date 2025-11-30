@@ -9,10 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="client_secret.json" />
     <None Remove="Views\Assets\google.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="client_secret.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.73.0" />
+    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.68.0.1869" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />

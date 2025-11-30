@@ -147,3 +147,10 @@ C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-window
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Common.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Microsoft.Extensions.Features.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Google.Apis.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Google.Apis.Auth.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Google.Apis.Core.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Google.Apis.Oauth2.v2.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Newtonsoft.Json.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\System.Management.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\runtimes\win\lib\net7.0\System.Management.dll
