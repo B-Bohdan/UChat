@@ -7,12 +7,14 @@ using uchat.Models;
 using uchat.Services;
 using uchat.Services.IServices;
 using uchat.ViewModels;
+using uchat.ViewModels.VMPages;
 using uchat.Views.Pages;
 
 namespace uchat
 {
-    // 1. Написать обертку для моделей данных под ViewModel'и
+    // 1. + Написать обертку для моделей данных под ViewModel'и
     // 2. Добавить авторизацию через Google API и изменить момент первого подключения к хосту
+
     // 3. Занятся версткой главной страницы
 
     public partial class App : Application
@@ -68,6 +70,8 @@ namespace uchat
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Тут будемо виводити повідомленя про будь-які помилки, даби не писати try catch скрізь
+            e.Handled = true;
+            MessageBox.Show(e.Exception.Message);
         }
 
         private void IninitializeServices()

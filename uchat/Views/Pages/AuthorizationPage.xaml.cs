@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using uchat.ViewModels;
+using uchat.ViewModels.VMPages;
 
 namespace uchat.Views.Pages
 {

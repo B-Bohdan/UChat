@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using uchat.modelbase.Models;
 using uchat.Models;
-using uchat.ViewModels;
+using uchat.ViewModels.VMPages;
 
 namespace uchat.Views.Pages
 {

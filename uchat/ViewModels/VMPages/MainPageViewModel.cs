@@ -4,7 +4,7 @@ using uchat.modelbase.Models;
 using uchat.Models;
 using uchat.Services.IServices;
 
-namespace uchat.ViewModels
+namespace uchat.ViewModels.VMPages
 {
     public class MainPageViewModel : ViewModelBase
     {
