@@ -154,3 +154,6 @@ C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-window
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\Newtonsoft.Json.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\System.Management.dll
 C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\bin\Debug\net10.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\Views\Pages\ChatPage.g.cs
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\KakoytoChel228\source\kampus_uchat\UChat\uchat\obj\Debug\net10.0-windows\Views\Pages\ChatPage.baml

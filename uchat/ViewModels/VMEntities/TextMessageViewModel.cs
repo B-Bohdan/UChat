@@ -7,8 +7,8 @@ namespace uchat.ViewModels.VMEntities
         // Приводимо нашу модель одразу до потрібного типу
         private TextMessage TypedModel => (TextMessage)Model;
 
-        public TextMessageViewModel(TextMessage model, UserViewModel? senderVm = null)
-            : base(model, senderVm) { }
+        public TextMessageViewModel(TextMessage model, int currentUserId, UserViewModel? senderVm = null)
+            : base(model, senderVm, currentUserId) { }
 
         public string Text
         {

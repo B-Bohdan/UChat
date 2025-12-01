@@ -11,6 +11,9 @@
   <ItemGroup>
     <None Remove="client_secret.json" />
     <None Remove="Views\Assets\google.png" />
+    <None Remove="Views\Assets\menu.png" />
+    <None Remove="Views\Assets\search.png" />
+    <None Remove="Views\Assets\send.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +36,15 @@
 
   <ItemGroup>
     <Resource Include="Views\Assets\google.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\menu.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\search.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\send.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

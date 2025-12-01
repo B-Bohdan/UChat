@@ -6,10 +6,11 @@ namespace uchat.ViewModels.VMEntities
     {
         private UserViewModel? _senderVm;
 
-        public MessageViewModel(Message model, UserViewModel? senderVm = null) : base(model)
+        public MessageViewModel(Message model, UserViewModel? senderVm, int currentUserId) : base(model)
         {
             // Якщо передали VM користувача встановлюємо, якщо ні то ініціалізуємо на льоту
             _senderVm = senderVm ?? (model.Sender != null ? new UserViewModel(model.Sender) : null);
+            IsMine = (model.Sender?.Id ?? 0) == currentUserId;
         }
 
         public UserViewModel? Sender
@@ -17,6 +18,8 @@ namespace uchat.ViewModels.VMEntities
             get => _senderVm;
             private set => Set(ref _senderVm, value);
         }
+
+        public bool IsMine { get; }
 
         public DateTime SentAt => Model.SentAt;
 

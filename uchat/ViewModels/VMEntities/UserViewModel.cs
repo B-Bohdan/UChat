@@ -41,6 +41,11 @@ namespace uchat.ViewModels.VMEntities
         /// </summary>
         public string FullName => $"{FirstName} {LastName}".Trim();
 
+        /// <summary>
+        /// Gets the uppercase initials derived from the first character of the first and last names.
+        /// </summary>
+        public string Initials => $"{FirstName.FirstOrDefault()}{LastName.FirstOrDefault()}".ToUpper();
+
         public string Email
         {
             get => Model.Email;

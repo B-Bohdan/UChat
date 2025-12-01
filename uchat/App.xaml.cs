@@ -54,15 +54,16 @@ namespace uchat
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
 
-            TagChecker(configurationService.Get<string>("StartPageTag"), navigationService);
+            //TagChecker(configurationService.Get<string>("StartPageTag"), navigationService);
+            TagChecker("MainPage", navigationService);
 
-            if(string.IsNullOrEmpty(ServerBaseUrl))
+            if (string.IsNullOrEmpty(ServerBaseUrl))
             {
                 throw new InvalidDataException("Server base URL is null or empty.");
             }
 
-            var connectionService = Services.GetRequiredService<IConnectionService>();
-            await connectionService.InitializeConnection(ServerBaseUrl);
+            //var connectionService = Services.GetRequiredService<IConnectionService>();
+            //await connectionService.InitializeConnection(ServerBaseUrl);
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -95,6 +96,8 @@ namespace uchat
 
             serviceCollection.AddTransient<MainPage>();
             serviceCollection.AddTransient<AuthorizationPage>();
+            serviceCollection.AddTransient<LoadingPage>();
+            serviceCollection.AddTransient<ChatPage>();
             #endregion
 
             // Підключення ViewModels у DI контейнер
@@ -103,7 +106,7 @@ namespace uchat
             serviceCollection.AddSingleton<AppState>();
             serviceCollection.AddTransient<MainPageViewModel>();
             serviceCollection.AddTransient<AuthorizationPageViewModel>();
-            serviceCollection.AddTransient<LoadingPage>();
+            serviceCollection.AddTransient<ChatPageViewModel>();
             #endregion
 
             // Підключення сервісів у DI контейнер

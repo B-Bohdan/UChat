@@ -9,12 +9,30 @@
         <GradientStop Color="#2970FF" Offset="1.0" />
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="ModerdButtonForegroundBrush" Color="#ffffff"/>
+
     <SolidColorBrush x:Key="BackgroundBrush" Color="#050F21"/>
     <SolidColorBrush x:Key="LogoForegroundColorBrush" Color="#B2CCFF"/>
-    
+    <SolidColorBrush x:Key="ChatPageBackgroundColorBrush" Opacity="0.23" Color="#02256A"/>
+
     <SolidColorBrush x:Key="LoginButtonColorBrush" Color="#ffffff"/>
     <SolidColorBrush x:Key="LoginButtonForegroundBrush" Color="#000000"/>
     <SolidColorBrush x:Key="LoginButtonMouseOverBrush" Color="#d7d7d9"/>
+
+    <SolidColorBrush x:Key="PlaceHolderForegroundBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="SearchBarForegroundBrush" Color="#000000"/>
+    <SolidColorBrush x:Key="SearchBarBackgroundBrush" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="ChatSelectionBackgroundColorBrush" Opacity="0.38" Color="#AAF0C4"/>
+    <SolidColorBrush x:Key="ChatMouseOveringBackgroundColorBrush" Opacity="0.68" Color="#AAF0C4"/>
+
+    <SolidColorBrush x:Key="ChatIconBackgroundColorBrush" Color="#B2CCFF"/>
+    <SolidColorBrush x:Key="ChatIconForegroundBrush" Color="#000000"/>
+    <SolidColorBrush x:Key="ChatNameForegroundBrush" Color="#ffffff"/>
+    <SolidColorBrush x:Key="ChatLastMessageForegroundBrush" Color="#808080"/>
+
+    <SolidColorBrush x:Key="MessageFieldBackgroundColorBrush" Opacity="0.23" Color="#02256A"/>
+    <SolidColorBrush x:Key="MessageFieldForegroundBrush" Color="#ffffff"/>
 
     <!--Geometyries-->
     <CombinedGeometry x:Key="Logo" GeometryCombineMode="Exclude">
@@ -62,6 +80,66 @@
     </CombinedGeometry>
 
     <!--Styles-->
+    <Style x:Key="ModerdButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ModerdButtonForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="RoundButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ModerdButtonForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="25" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="LoginButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource LoginButtonColorBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource LoginButtonForegroundBrush}"/>
@@ -108,6 +186,120 @@
         </Setter>
     </Style>
     
+    <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="7" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <Grid>
+                            <Image
+                                Grid.Column="0"
+                                Width="15"
+                                Margin="5"
+                                Source="../Assets/menu.png"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchBarStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{StaticResource SearchBarBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource SearchBarForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="Padding" Value="3,3,0,0"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+                            <TextBlock x:Name="placeholder" 
+                                   FontWeight="{TemplateBinding FontWeight}" 
+                                   Margin="4,3.5,0,0" 
+                                   FontSize="{TemplateBinding FontSize}" 
+                                   Text="Search user by email..." 
+                                   Foreground="{StaticResource PlaceHolderForegroundBrush}"
+                                   Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                    <Condition Property="IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
     
-   
+    <Style x:Key="MessageFieldStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{StaticResource MessageFieldBackgroundColorBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource MessageFieldForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinHeight" Value="35"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Padding" Value="5,9,5,9"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+                            <TextBlock x:Name="placeholder" 
+                               FontWeight="{TemplateBinding FontWeight}" 
+                               Margin="7,9,0,0" 
+                               FontSize="{TemplateBinding FontSize}" 
+                               Text="Enter your message..." 
+                               Foreground="{StaticResource PlaceHolderForegroundBrush}"
+                               Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
