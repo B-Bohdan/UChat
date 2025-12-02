@@ -214,6 +214,14 @@ namespace uchat.Services
             }
         }
 
+        public async Task<User?> GetUserInfo(int userId)
+        {
+            if (_hubConnection == null)
+                return null;
+            User? user = await _hubConnection.InvokeAsync<User?>("GetUserInfoAsync", userId);
+            return user;
+        }
+
         public async Task CheckUserAuthorization(string googleToken)
         {
             if(_hubConnection != null)

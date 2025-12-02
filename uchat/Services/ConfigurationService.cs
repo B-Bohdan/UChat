@@ -26,8 +26,6 @@ namespace uchat.Services
             {
                 _settings = new Dictionary<string, string>
                 {
-                    { "UILanguage", "UA" },
-                    { "StartPageTag", "" },
                     { "ServerConnectionString", "" },
                     { "IsAuthorized", "false"}
                 };

@@ -15,14 +15,16 @@ namespace uchat.ViewModels
         public IConfigurationService ConfigurationService { get; private set; }
         public IConnectionService ConnectionService { get; private set; }
         public IDbContextFactory<ApplicationContext> DbContextFactory { get; private set; }
+        public INavigationService NavigationService { get; private set; }
 
         public ViewModelBase(AppState appState, IConfigurationService configurationService, 
-            IConnectionService connectionService, IDbContextFactory<ApplicationContext> dbContextFactory)
+            IConnectionService connectionService, IDbContextFactory<ApplicationContext> dbContextFactory, INavigationService navigationService)
         {
             ApplicationState = appState;
             ConfigurationService = configurationService;
             ConnectionService = connectionService;
             DbContextFactory = dbContextFactory;
+            NavigationService = navigationService;
         }
     }
 }

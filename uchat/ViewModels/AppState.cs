@@ -1,4 +1,5 @@
 ﻿using uchat.ViewModels.Tools;
+using uchat.ViewModels.VMEntities;
 
 namespace uchat.ViewModels
 {
@@ -7,6 +8,13 @@ namespace uchat.ViewModels
     /// </summary>
     public class AppState : ObservableObject
     {
+        public AppState() { }
 
+        private UserViewModel? _loggeduser;
+        public UserViewModel? LoggedUser
+        {
+            get { return _loggeduser; } 
+            set { _loggeduser = value; OnPropertyChanged();}
+        }
     }
 }

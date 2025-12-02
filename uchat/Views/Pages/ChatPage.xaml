@@ -4,9 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:uchat.Views.Pages"
+      xmlns:vmp="clr-namespace:uchat.ViewModels.VMPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="600"
-      Title="ChatPage">
+      Title="ChatPage"
+      d:DataContext="{d:DesignInstance Type=vmp:ChatPageViewModel, IsDesignTimeCreatable=False}">
 
     <Border
         Background="{StaticResource ChatPageBackgroundColorBrush}">
@@ -36,11 +38,16 @@
                      Fill="{StaticResource ChatIconBackgroundColorBrush}">
                 </Ellipse>
 
+                <Image
+                    Grid.Column="0"
+                    Width="25"
+                    Source="../Assets/chat_icon.png"/>
+
                 <TextBlock
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
-                    Text="Ivan Rusin"
+                    Text="Chat name"
                     Foreground="{StaticResource ChatNameForegroundBrush}"
                     FontSize="13"
                     FontWeight="SemiBold"/>
@@ -54,22 +61,79 @@
 
                 <ListBox.Resources>
                     <ControlTemplate x:Key="IncomingMessageTemplate" TargetType="ListBoxItem">
-                        <Grid Margin="0,5,50,5" HorizontalAlignment="Left">
-                            <Border Background="#E5E5EA" 
+                        <Grid Margin="10,5,50,5" HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Border Background="{StaticResource SenderMessageBackgrounColorBrush}" 
                                     CornerRadius="15,15,15,0" 
+                                    Grid.Row="0"
                                     Padding="10">
-                                <ContentPresenter />
+                                
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        Foreground="{StaticResource SenderNameOnMessageForegroundBrush}"
+                                        Text="Ivan Rusin"
+                                        FontWeight="SemiBold"/>
+
+                                    <TextBlock
+                                        Foreground="{StaticResource SenderMessageTextForegroundBrush}"
+                                        Grid.Row="1"
+                                        Margin="0,5,0,0"
+                                        TextWrapping="Wrap"
+                                        MaxWidth="350"
+                                        Text="Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World"/>
+                                </Grid>
                             </Border>
+
+                            <TextBlock
+                                Margin="10,5,0,0"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right"
+                                Grid.Row="1"
+                                Text="2:29 PM"
+                                Foreground="{StaticResource MessageTimeHintForegroundBrush}"/>
                         </Grid>
                     </ControlTemplate>
 
                     <ControlTemplate x:Key="OutgoingMessageTemplate" TargetType="ListBoxItem">
-                        <Grid Margin="50,5,0,5" HorizontalAlignment="Right">
-                            <Border Background="#0078D7" 
+                        <Grid Margin="50,5,10,5" HorizontalAlignment="Right">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Background="{StaticResource AccentBrush}" 
                                     CornerRadius="15,15,0,15" 
                                     Padding="10">
-                                <ContentPresenter TextElement.Foreground="White"/>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        Foreground="{StaticResource UserMessageTextForegroundBrush}"
+                                        Grid.Row="1"
+                                        TextWrapping="Wrap"
+                                        MaxWidth="350"
+                                        Text="Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World"/>
+                                </Grid>
                             </Border>
+
+                            <TextBlock
+                                Margin="10,5,0,0"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Left"
+                                Grid.Row="1"
+                                Text="2:29 PM"
+                                Foreground="{StaticResource MessageTimeHintForegroundBrush}"/>
                         </Grid>
                     </ControlTemplate>
                 </ListBox.Resources>

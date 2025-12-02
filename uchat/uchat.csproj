@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <None Remove="client_secret.json" />
+    <None Remove="Views\Assets\chat_icon.png" />
+    <None Remove="Views\Assets\close.png" />
+    <None Remove="Views\Assets\copy.png" />
     <None Remove="Views\Assets\google.png" />
     <None Remove="Views\Assets\menu.png" />
     <None Remove="Views\Assets\search.png" />
@@ -35,6 +38,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Views\Assets\chat_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\close.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\copy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Views\Assets\google.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

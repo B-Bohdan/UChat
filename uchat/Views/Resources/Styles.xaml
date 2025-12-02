@@ -9,6 +9,8 @@
         <GradientStop Color="#2970FF" Offset="1.0" />
     </LinearGradientBrush>
 
+    <SolidColorBrush x:Key="BlurBackgroundBrush" Opacity="0.5" Color="#27292d"/>
+
     <SolidColorBrush x:Key="ModerdButtonForegroundBrush" Color="#ffffff"/>
 
     <SolidColorBrush x:Key="BackgroundBrush" Color="#050F21"/>
@@ -33,6 +35,16 @@
 
     <SolidColorBrush x:Key="MessageFieldBackgroundColorBrush" Opacity="0.23" Color="#02256A"/>
     <SolidColorBrush x:Key="MessageFieldForegroundBrush" Color="#ffffff"/>
+    
+    <!--<SolidColorBrush x:Key="UserMessageBackgroundColorBrush"/>-->
+    <SolidColorBrush x:Key="SenderMessageBackgrounColorBrush" Opacity="0.53" Color="#02256A"/>
+    <SolidColorBrush x:Key="SenderNameOnMessageForegroundBrush" Opacity="0.38" Color="#AAF0C4"/>
+    
+    <SolidColorBrush x:Key="MessageTimeHintForegroundBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="SenderMessageTextForegroundBrush" Color="#ffffff"/>
+    <SolidColorBrush x:Key="UserMessageTextForegroundBrush" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="ProfileDataFieldsForegroundBrush" Color="#ffffff"/>
 
     <!--Geometyries-->
     <CombinedGeometry x:Key="Logo" GeometryCombineMode="Exclude">
@@ -208,6 +220,37 @@
                             <Setter Property="Opacity" TargetName="border" Value="0.7"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BackgroundButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ModerdButtonForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource ChatPageBackgroundColorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource ChatPageBackgroundColorBrush}"/>
                             <Setter Property="Opacity" TargetName="border" Value="0.5"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">

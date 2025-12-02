@@ -39,6 +39,12 @@ namespace uchat_server.Hubs
             await base.OnConnectedAsync();
         }
 
+        public async Task<User?> GetUserInfoAsync(int userId)
+        {
+            User? user = await _applicationContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
+        }
+
         public async Task<List<Chat>> GetUserChats(int userId)
         {
             // Завантажуємо всі чати, в яких бере участь користувач

@@ -4,9 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:uchat.Views.Pages"
+      xmlns:vmp="clr-namespace:uchat.ViewModels.VMPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage"
+      d:DataContext="{d:DesignInstance Type=vmp:MainPageViewModel, IsDesignTimeCreatable=False}"
       Background="White">
 
     <Border
@@ -19,7 +21,7 @@
                 <!--Selected Chat Panel-->
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
+            
             <!--Side Panel-->
             <Grid
                 Grid.Column="0">
@@ -72,6 +74,7 @@
                             Width="30"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
+                            Command="{Binding ShowMenuCommand}"
                             Style="{StaticResource MenuButtonStyle}"/>
                     </Grid>
                 </Border>
@@ -137,13 +140,10 @@
                                                     Fill="{StaticResource ChatIconBackgroundColorBrush}">
                                                 </Ellipse>
 
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="IR"
-                                                    FontSize="15"
-                                                    FontWeight="SemiBold"
-                                                    Grid.Column="0"/>
+                                                <Image
+                                                    Grid.Column="0"
+                                                    Width="20"
+                                                    Source="../Assets/chat_icon.png"/>
 
                                                 <StackPanel
                                                     VerticalAlignment="Center"
@@ -153,7 +153,7 @@
 
                                                     <!--Name-->
                                                     <TextBlock
-                                                        Text="Ivan Rusin"
+                                                        Text="Chat name"
                                                         TextTrimming="CharacterEllipsis"
                                                         FontSize="13"
                                                         Foreground="{StaticResource ChatNameForegroundBrush}"/>
@@ -196,6 +196,12 @@
             <Frame
                 Grid.Column="1"
                 Source="ChatPage.xaml">
+            </Frame>
+
+            <Frame
+                x:Name="profileFrame"
+                Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.ColumnSpan="2">
             </Frame>
         </Grid>
     </Border>

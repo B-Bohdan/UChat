@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:uchat"
         mc:Ignorable="d"
         Title="uchat"
-        Height="450" 
+        MinHeight="550"
+        Height="550" 
         Width="800"
         WindowStartupLocation="CenterScreen">
     

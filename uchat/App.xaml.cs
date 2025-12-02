@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
+using uchat.modelbase.Models;
 using uchat.Models;
 using uchat.Services;
 using uchat.Services.IServices;
 using uchat.ViewModels;
+using uchat.ViewModels.VMEntities;
 using uchat.ViewModels.VMPages;
 using uchat.Views.Pages;
 
@@ -24,6 +28,44 @@ namespace uchat
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        // Ловимо подію підключення
+        private async void ConnectionService_OnConnected()
+        {
+            int userInSystemId = 0;
+
+            // Дістаємо користувача із локальної БД, якщо його немає, то виходимо з методу
+            using (var appContext = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>().CreateDbContext())
+            {
+                User? userInSystem = appContext.Users.FirstOrDefault();
+
+                if (userInSystem == null)
+                    return;
+
+                // Зберігаємо його ID, бо далі він знадобиться
+                userInSystemId = userInSystem.Id;
+            }
+
+            // Відкриваємо другий скоуп бази данних, щоб уникнути помилки подвійного відстежування
+            // Запитуємо користувача з хоста, та оновлюємо його дані
+            using (var appContext = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>().CreateDbContext())
+            {
+                var userToUpdate = await Services.GetRequiredService<IConnectionService>().GetUserInfo(userInSystemId);
+
+                if (userToUpdate != null)
+                {
+                    appContext.Users.Update(userToUpdate);
+                    await appContext.SaveChangesAsync();
+
+                    Current?.Dispatcher.InvokeAsync(() =>
+                    {
+                        Services.GetRequiredService<AppState>().LoggedUser = new UserViewModel(userToUpdate);
+                        // Відкриваємо головну сторінку коли закінчили
+                        Services.GetRequiredService<INavigationService>().ChangePage<MainPage>();
+                    });
+                }
+            }
         }
 
         protected async override void OnStartup(StartupEventArgs e)
@@ -54,16 +96,33 @@ namespace uchat
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
 
-            //TagChecker(configurationService.Get<string>("StartPageTag"), navigationService);
-            TagChecker("MainPage", navigationService);
+            var connectionService = Services.GetRequiredService<IConnectionService>();
+            connectionService.OnConnected += ConnectionService_OnConnected;
 
             if (string.IsNullOrEmpty(ServerBaseUrl))
             {
                 throw new InvalidDataException("Server base URL is null or empty.");
             }
 
-            //var connectionService = Services.GetRequiredService<IConnectionService>();
-            //await connectionService.InitializeConnection(ServerBaseUrl);
+            // Перевіряємо поточний статус авторизації, через конфігурацію
+            if (bool.TryParse(configurationService.Get<string>("IsAuthorized"), out bool isAuthorized))
+            {
+                // Якщо ми вже авторизовані, то просто підключаємось
+                if (isAuthorized)
+                {
+                    await connectionService.InitializeConnection(ServerBaseUrl);
+                }
+                else
+                {
+                    // Якщо користувач зайшов вперше, або "розлогінився" напрявляємо його на сторінку авторизації
+                    // наступна логіка у AuthorizationPageViewModel.cs
+                    navigationService.ChangePage<AuthorizationPage>();
+                }
+            }
+            else
+            {
+                throw new Exception("Failed to parse authorization state, app loading can't be completed.");
+            }
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -98,14 +157,16 @@ namespace uchat
             serviceCollection.AddTransient<AuthorizationPage>();
             serviceCollection.AddTransient<LoadingPage>();
             serviceCollection.AddTransient<ChatPage>();
+            serviceCollection.AddTransient<MenuPage>();
+            serviceCollection.AddTransient<ChatInfoPage>();
             #endregion
 
             // Підключення ViewModels у DI контейнер
             #region ViewModels
 
             serviceCollection.AddSingleton<AppState>();
-            serviceCollection.AddTransient<MainPageViewModel>();
-            serviceCollection.AddTransient<AuthorizationPageViewModel>();
+            serviceCollection.AddSingleton<MainPageViewModel>();
+            serviceCollection.AddSingleton<AuthorizationPageViewModel>();
             serviceCollection.AddTransient<ChatPageViewModel>();
             #endregion
 
@@ -118,22 +179,6 @@ namespace uchat
             #endregion
 
             Services = serviceCollection.BuildServiceProvider();
-        }
-
-        private void TagChecker(string? startPageTag, INavigationService navigationService)
-        {
-            switch (startPageTag)
-            {
-                case nameof(NavigationService.NavigationTags.MainPage):
-                    navigationService.ChangePage<MainPage>();
-                    break;
-                case nameof(NavigationService.NavigationTags.AuthorizationPage):
-                    navigationService.ChangePage<AuthorizationPage>();
-                    break;
-                default:
-                    navigationService.ChangePage<AuthorizationPage>();
-                    break;
-            }
         }
     }
 
