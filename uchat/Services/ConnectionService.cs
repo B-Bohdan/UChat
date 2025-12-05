@@ -46,25 +46,8 @@ namespace uchat.Services
 
         public async Task InitializeConnection(string serverBaseUrl)
         {
-            int userId = 0; // По умолчанию 0 (если юзера нет)
-
-            // Используем фабрику для создания краткосрочного контекста
-            using (var db = _localContextFactory.CreateDbContext())
-            {
-                // Берем первого и единственного юзера
-                var localUser = await db.Users.FirstOrDefaultAsync();
-                if (localUser != null)
-                {
-                    userId = localUser.Id;
-                }
-            }
-
-            // Добавляем Query Parameter
-            var fullUrl = $"{serverBaseUrl}?userId={userId}";
-
-            // 4. СТРОИМ ПОДКЛЮЧЕНИЕ
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl(fullUrl)
+                .WithUrl(serverBaseUrl)
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -91,6 +74,11 @@ namespace uchat.Services
             {
                 // Виклик події підтвердження авторизації
                 OnAuthorizationConfirmed?.Invoke(user);
+            });
+
+            _hubConnection.On<string>("AuthorizationError", (message) =>
+            {
+
             });
 
             // Підписка на подію надходження знайденого користувача
@@ -222,11 +210,11 @@ namespace uchat.Services
             return user;
         }
 
-        public async Task CheckUserAuthorization(string googleToken)
+        public async Task AuthorizeUser(string googleToken)
         {
             if(_hubConnection != null)
             {
-                await _hubConnection.SendAsync("LoginWithGoogle", googleToken);
+                await _hubConnection.SendAsync("AuthorizeUser", googleToken);
             }
         }
 

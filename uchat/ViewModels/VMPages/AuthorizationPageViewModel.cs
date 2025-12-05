@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using uchat.modelbase.Models;
 using uchat.Models;
-using uchat.Services;
 using uchat.Services.IServices;
 using uchat.ViewModels.Tools;
 using uchat.ViewModels.VMEntities;
@@ -17,26 +16,7 @@ namespace uchat.ViewModels.VMPages
         public AuthorizationPageViewModel(AppState appState, IConfigurationService configurationService,
             IConnectionService connectionService, IDbContextFactory<ApplicationContext> appContextFactory, INavigationService navigationService) : base(appState, configurationService, connectionService, appContextFactory, navigationService)
         {
-            ConnectionService.OnAuthorizationConfirmed += ConnectionService_OnAuthorizationConfirmed;
-        }
 
-        private void ConnectionService_OnAuthorizationConfirmed(User user)
-        {
-            // Встановлюємо у конфіг що користувача тепер аторизовано
-            ConfigurationService.Set("IsAuthorized", "true");
-            // Та додаємо його до локальної БД
-            using (var appcontext = DbContextFactory.CreateDbContext())
-            {
-                appcontext.Users.Add(user);
-                appcontext.SaveChanges();
-            }
-
-            // Для зміни сторінки вертаємось у UI потік через Dispatcher
-            Application.Current?.Dispatcher.InvokeAsync(() =>
-            {
-                ApplicationState.LoggedUser = new UserViewModel(user);
-                NavigationService.ChangePage<MainPage>();
-            });
         }
 
         #region Commands
@@ -60,14 +40,14 @@ namespace uchat.ViewModels.VMPages
             try
             {
                 // Отримуємо токен від Google, або вперше або із кореневого каталогу
-                string token = await ConnectionService.GetGoogleIdTokenAsync();
+                //string token = await ConnectionService.GetGoogleIdTokenAsync();
 
                 // Ініціалізуємо підключення
                 await ConnectionService.InitializeConnection(App.ServerBaseUrl!);
 
                 // Кидаємо запит перевірити, чи існує користувач з цього токену у БД хосту
                 // У будь-якому випадку далі буде визвано подію ConnectionService_OnAuthorizationConfirmed
-                await ConnectionService.CheckUserAuthorization(token);
+                //await ConnectionService.AuthorizeUser(token);
             }
             catch (Exception ex)
             {

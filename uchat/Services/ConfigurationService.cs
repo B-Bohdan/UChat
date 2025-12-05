@@ -27,7 +27,8 @@ namespace uchat.Services
                 _settings = new Dictionary<string, string>
                 {
                     { "ServerConnectionString", "" },
-                    { "IsAuthorized", "false"}
+                    { "IsAuthorized", "false"},
+                    { "AuthorizedUserId", "" }
                 };
                 await SaveConfigurationAsync();
             }

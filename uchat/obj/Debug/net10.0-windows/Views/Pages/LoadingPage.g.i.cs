@@ -53,7 +53,7 @@ namespace uchat.Views.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/uchat;component/views/pages/loadingpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/uchat;V1.0.0.0;component/views/pages/loadingpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\Pages\LoadingPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

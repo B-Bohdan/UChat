@@ -33,39 +33,43 @@ namespace uchat
         // Ловимо подію підключення
         private async void ConnectionService_OnConnected()
         {
-            int userInSystemId = 0;
+            string token = await Services.GetRequiredService<IConnectionService>().GetGoogleIdTokenAsync();
+            await Services.GetRequiredService<IConnectionService>().AuthorizeUser(token);
+        }
 
-            // Дістаємо користувача із локальної БД, якщо його немає, то виходимо з методу
-            using (var appContext = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>().CreateDbContext())
+        private async void ConnectionService_OnAuthorizationConfirmed(User user)
+        {
+            var dbContextFactoty = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>();
+            var configurationServices = Services.GetRequiredService<IConfigurationService>();
+            var navigationService = Services.GetRequiredService<INavigationService>();
+
+            // Перевіряємо існування користувача у локальній БД, додаємо або оновлюємо
+            using (var appcontext = dbContextFactoty.CreateDbContext())
             {
-                User? userInSystem = appContext.Users.FirstOrDefault();
+                var userInLocal = await appcontext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
 
-                if (userInSystem == null)
-                    return;
-
-                // Зберігаємо його ID, бо далі він знадобиться
-                userInSystemId = userInSystem.Id;
-            }
-
-            // Відкриваємо другий скоуп бази данних, щоб уникнути помилки подвійного відстежування
-            // Запитуємо користувача з хоста, та оновлюємо його дані
-            using (var appContext = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>().CreateDbContext())
-            {
-                var userToUpdate = await Services.GetRequiredService<IConnectionService>().GetUserInfo(userInSystemId);
-
-                if (userToUpdate != null)
+                if (userInLocal == null)
                 {
-                    appContext.Users.Update(userToUpdate);
-                    await appContext.SaveChangesAsync();
+                    appcontext.Users.Add(user);
+                    await appcontext.SaveChangesAsync();
 
-                    Current?.Dispatcher.InvokeAsync(() =>
-                    {
-                        Services.GetRequiredService<AppState>().LoggedUser = new UserViewModel(userToUpdate);
-                        // Відкриваємо головну сторінку коли закінчили
-                        Services.GetRequiredService<INavigationService>().ChangePage<MainPage>();
-                    });
+                    // Встановлюємо у конфіг що користувача тепер аторизовано
+                    configurationServices.Set("AuthorizedUserId", user.Id);
+                    configurationServices.Set("IsAuthorized", "true");
+                }
+                else
+                {
+                    // Тут оновлюємо інформацію про користувача
+                    // Поки оновлювати нічого, але потенційно...
                 }
             }
+
+            //Для зміни даних вертаємось у UI потік через Dispatcher
+            Current?.Dispatcher.InvokeAsync(() =>
+            {
+                Services.GetRequiredService<AppState>().LoggedUser = new UserViewModel(user);
+                navigationService.ChangePage<MainPage>();
+            });
         }
 
         protected async override void OnStartup(StartupEventArgs e)
@@ -95,9 +99,11 @@ namespace uchat
             // Ініціалізуємо навігацію, за замовчування відкриваємо головну сторінку
             var navigationService = Services.GetRequiredService<INavigationService>();
             navigationService.InitializeRootFrame(mainWindow.RootFrame);
+            navigationService.ChangePage<MainPage>();
 
             var connectionService = Services.GetRequiredService<IConnectionService>();
             connectionService.OnConnected += ConnectionService_OnConnected;
+            connectionService.OnAuthorizationConfirmed += ConnectionService_OnAuthorizationConfirmed;
 
             if (string.IsNullOrEmpty(ServerBaseUrl))
             {

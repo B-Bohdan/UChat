@@ -18,24 +18,6 @@ namespace uchat_server.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var httpContext = Context.GetHttpContext();
-            var userIdStr = httpContext!.Request.Query["userId"];
-
-            if (int.TryParse(userIdStr, out int userId))
-            {
-                await Groups.AddToGroupAsync(Context.ConnectionId, $"User_{userId}");
-
-                var userChats = await _applicationContext.Chats
-                    .Where(c => c.Participants.Any(p => p.Id == userId))
-                    .Select(c => c.Id)
-                    .ToListAsync();
-
-                foreach (var chatId in userChats)
-                {
-                    await Groups.AddToGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
-                }
-            }
-
             await base.OnConnectedAsync();
         }
 
@@ -130,7 +112,8 @@ namespace uchat_server.Hubs
 
         #region User Interactions
 
-        public async Task LoginWithGoogle(string googleToken)
+        // Авторизує користувача коли він реєструється, логінится та просто заходить
+        public async Task AuthorizeUser(string googleToken)
         {
             try
             {
@@ -161,12 +144,18 @@ namespace uchat_server.Hubs
                     await _applicationContext.Users.AddAsync(newUser);
                     await _applicationContext.SaveChangesAsync();
 
+                    // Додаємо до групи підключень
+                    await AddConnectionContextToGroup(Context, newUser.Id);
+
                     await Clients.Caller.SendAsync("AuthorizationConfirmed", newUser);
                 }
                 else
                 {
-                    userInSystem.UserStatus = User.Status.Online;
-                    await _applicationContext.SaveChangesAsync();
+                    //userInSystem.UserStatus = User.Status.Online;
+                    //await _applicationContext.SaveChangesAsync();
+
+                    // Додаємо до групи підключень
+                    await AddConnectionContextToGroup(Context, userInSystem.Id);
 
                     await Clients.Caller.SendAsync("AuthorizationConfirmed", userInSystem);
                 }
@@ -179,6 +168,21 @@ namespace uchat_server.Hubs
             catch (Exception ex)
             {
                 await Clients.Caller.SendAsync("AuthorizationError", $"Внутренняя ошибка сервера: {ex.Message}");
+            }
+        }
+
+        private async Task AddConnectionContextToGroup(HubCallerContext context, int userId)
+        {
+            await Groups.AddToGroupAsync(context.ConnectionId, $"User_{userId}");
+
+            var userChats = await _applicationContext.Chats
+                    .Where(c => c.Participants.Any(p => p.Id == userId))
+                    .Select(c => c.Id)
+                    .ToListAsync();
+
+            foreach (var chatId in userChats)
+            {
+                await Groups.AddToGroupAsync(context.ConnectionId, $"Chat_{chatId}");
             }
         }
 

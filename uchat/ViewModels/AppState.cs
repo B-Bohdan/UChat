@@ -1,5 +1,9 @@
-﻿using uchat.ViewModels.Tools;
+﻿using uchat.Services.IServices;
+using uchat.ViewModels.Tools;
 using uchat.ViewModels.VMEntities;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.EntityFrameworkCore;
+using uchat.Models;
 
 namespace uchat.ViewModels
 {
@@ -8,7 +12,32 @@ namespace uchat.ViewModels
     /// </summary>
     public class AppState : ObservableObject
     {
-        public AppState() { }
+        public AppState(IConnectionService connectionService, IDbContextFactory<ApplicationContext> contextFactory, IConfigurationService configurationService)
+        {
+            var connectionState = connectionService.GetConnectionState();
+
+            // Завантаження даних про користувача з локальної БД, якщо підключитись не вдалось
+            if (connectionState == null || connectionState == HubConnectionState.Disconnected)
+            {
+                string? userId = configurationService.Get<string>("AuthorizedUserId");
+
+                if(int.TryParse(userId, out int id))
+                {
+                    using (var context = contextFactory.CreateDbContext())
+                    {
+                        var userFromLocal = context.Users.FirstOrDefault(u => u.Id == id);
+
+                        if(userFromLocal == null)
+                        {
+                            // ...
+                            return;
+                        }
+
+                        LoggedUser = new UserViewModel(userFromLocal);
+                    }
+                }
+            }
+        }
 
         private UserViewModel? _loggeduser;
         public UserViewModel? LoggedUser
