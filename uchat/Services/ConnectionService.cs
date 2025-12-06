@@ -234,6 +234,15 @@ namespace uchat.Services
             return null;
         }
 
+        public async Task<List<Chat>?> GetUserChats(int userId)
+        {
+            if (_hubConnection == null)
+                return null;
+
+            List<Chat> chats = await _hubConnection.InvokeAsync<List<Chat>>("GetUserChats", userId);
+            return chats;
+        }
+
         public async Task<string> GetGoogleIdTokenAsync()
         {
             UserCredential credential;

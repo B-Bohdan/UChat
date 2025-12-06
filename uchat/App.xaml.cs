@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
 using System;
 using System.IO;
 using System.Windows;
@@ -42,6 +43,8 @@ namespace uchat
             var dbContextFactoty = Services.GetRequiredService<IDbContextFactory<ApplicationContext>>();
             var configurationServices = Services.GetRequiredService<IConfigurationService>();
             var navigationService = Services.GetRequiredService<INavigationService>();
+            var connectionService = Services.GetRequiredService<IConnectionService>();
+            var appState = Services.GetRequiredService<AppState>();
 
             // Перевіряємо існування користувача у локальній БД, додаємо або оновлюємо
             using (var appcontext = dbContextFactoty.CreateDbContext())
@@ -62,14 +65,25 @@ namespace uchat
                     // Тут оновлюємо інформацію про користувача
                     // Поки оновлювати нічого, але потенційно...
                 }
-            }
 
-            //Для зміни даних вертаємось у UI потік через Dispatcher
-            Current?.Dispatcher.InvokeAsync(() =>
-            {
-                Services.GetRequiredService<AppState>().LoggedUser = new UserViewModel(user);
-                navigationService.ChangePage<MainPage>();
-            });
+                //Для зміни даних вертаємось у UI потік через Dispatcher
+                Current?.Dispatcher.InvokeAsync(() =>
+                {
+                    appState.LoggedUser = new UserViewModel(user);
+                    navigationService.ChangePage<MainPage>();
+                });
+
+                List<Chat>? userChats = await connectionService.GetUserChats(user.Id);
+
+                Current?.Dispatcher.InvokeAsync(() =>
+                {
+                    if (userChats != null)
+                    {
+                        appState.Chats = new ObservableCollection<ChatViewModel>
+                        (userChats.Select(c => new ChatViewModel(c)));
+                    }
+                });
+            }
         }
 
         protected async override void OnStartup(StartupEventArgs e)
@@ -89,7 +103,8 @@ namespace uchat
             }
             else
             {
-                ServerBaseUrl = configurationService.Get<string>("ServerConnectionString");
+                var str = configurationService.Get<string>("ServerConnectionString");
+                ServerBaseUrl = str;
             }
 
             // Ініціалізуємо головне вікно та показуємо його

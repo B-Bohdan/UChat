@@ -4,6 +4,7 @@ using uchat.ViewModels.VMEntities;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using uchat.Models;
+using System.Collections.ObjectModel;
 
 namespace uchat.ViewModels
 {
@@ -14,6 +15,8 @@ namespace uchat.ViewModels
     {
         public AppState(IConnectionService connectionService, IDbContextFactory<ApplicationContext> contextFactory, IConfigurationService configurationService)
         {
+            Chats = new ObservableCollection<ChatViewModel>();
+
             var connectionState = connectionService.GetConnectionState();
 
             // Завантаження даних про користувача з локальної БД, якщо підключитись не вдалось
@@ -34,6 +37,7 @@ namespace uchat.ViewModels
                         }
 
                         LoggedUser = new UserViewModel(userFromLocal);
+                        Chats = new ObservableCollection<ChatViewModel>(context.Chats.ToList().Select(c => new ChatViewModel(c)));
                     }
                 }
             }
@@ -44,6 +48,16 @@ namespace uchat.ViewModels
         {
             get { return _loggeduser; } 
             set { _loggeduser = value; OnPropertyChanged();}
+        }
+
+        private ObservableCollection<ChatViewModel>? _chats;
+        public ObservableCollection<ChatViewModel>? Chats
+        {
+            get => _chats;
+            set
+            {
+                _chats = value; OnPropertyChanged();
+            }
         }
     }
 }

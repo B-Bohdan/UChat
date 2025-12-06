@@ -75,7 +75,8 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             Command="{Binding ShowMenuCommand}"
-                            Style="{StaticResource MenuButtonStyle}"/>
+                            Style="{StaticResource MenuButtonStyle}"
+                            ToolTip="Open menu"/>
                     </Grid>
                 </Border>
 
@@ -95,7 +96,7 @@
                     Margin="0,0,10,0">
 
                     <!--Search button-->
-                    <Button Style="{DynamicResource ModerdButtonStyle}">
+                    <Button Style="{DynamicResource ModerdButtonStyle}" ToolTip="To Find!">
                         <Image
                             Width="17"
                             Source="../Assets/search.png"/>
@@ -103,6 +104,7 @@
                 </Border>
 
                 <ListBox 
+                    ItemsSource="{Binding ApplicationState.Chats}"
                     Grid.Row="2"
                     Background="Transparent"
                     BorderThickness="0"
@@ -153,14 +155,14 @@
 
                                                     <!--Name-->
                                                     <TextBlock
-                                                        Text="Chat name"
+                                                        Text="{Binding Tag}"
                                                         TextTrimming="CharacterEllipsis"
                                                         FontSize="13"
                                                         Foreground="{StaticResource ChatNameForegroundBrush}"/>
-                                                    
+
                                                     <!--Last message-->
                                                     <TextBlock
-                                                        Text="Okak"
+                                                        Text="{Binding LastMessagePreview}"
                                                         TextTrimming="CharacterEllipsis"
                                                         FontSize="11"
                                                         Foreground="{StaticResource ChatLastMessageForegroundBrush}"/>
@@ -183,13 +185,22 @@
                             </Setter>
                         </Style>
                     </ListBox.ItemContainerStyle>
-
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
-                    <ListBoxItem/>
                 </ListBox>
+
+                <Button
+                    Grid.Row="2"
+                    Height="35"
+                    Width="35"
+                    Style="{StaticResource ModerdButtonStyle}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,10,10"
+                    ToolTip="Create new chat">
+
+                    <Image
+                        Width="20"
+                        Source="../Assets/add.png"/>
+                </Button>
             </Grid>
 
 

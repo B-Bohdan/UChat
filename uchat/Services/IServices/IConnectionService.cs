@@ -40,5 +40,6 @@ namespace uchat.Services.IServices
         public Task AuthorizeUser(string googleToken);
         public Task SendMessage(int senderId, int chatId, Message message);
         public Task<User?> GetUserInfo(int userId);
+        public Task<List<Chat>?> GetUserChats(int userId);
     }
 }

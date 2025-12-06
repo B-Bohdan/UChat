@@ -1,12 +1,104 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat_server\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|solutionrelative:uchat_server\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\services\\connectionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C94E994E-1392-6149-9694-91697B00FB5D}|uchat_server\\uchat_server.csproj|solutionrelative:uchat_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\views\\pages\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\views\\pages\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConnectionService.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
+              "RelativeDocumentMoniker": "uchat\\Services\\ConnectionService.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Services\\ConnectionService.cs",
+              "RelativeToolTip": "uchat\\Services\\ConnectionService.cs",
+              "ViewState": "AgIAAAEBAAAAAAAAAAAUwC8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T21:08:48.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Program.cs",
+              "RelativeDocumentMoniker": "uchat_server\\Program.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Program.cs",
+              "RelativeToolTip": "uchat_server\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T20:52:57.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChatHub.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Hubs\\ChatHub.cs",
+              "RelativeDocumentMoniker": "uchat_server\\Hubs\\ChatHub.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat_server\\Hubs\\ChatHub.cs",
+              "RelativeToolTip": "uchat_server\\Hubs\\ChatHub.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAqwCYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T20:49:41.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\App.xaml.cs",
+              "RelativeDocumentMoniker": "uchat\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\App.xaml.cs",
+              "RelativeToolTip": "uchat\\App.xaml.cs",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAmwGUAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T20:45:25.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Views\\Pages\\MainPage.xaml",
+              "RelativeDocumentMoniker": "uchat\\Views\\Pages\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Views\\Pages\\MainPage.xaml",
+              "RelativeToolTip": "uchat\\Views\\Pages\\MainPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-06T20:26:48.306Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

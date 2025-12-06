@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
 using uchat.Models;
@@ -10,10 +11,12 @@ namespace uchat_server.Hubs
     public class ChatHub : Hub
     {
         private readonly ApplicationContext _applicationContext;
+        private readonly ILogger<ChatHub> _logger;
 
-        public ChatHub(ApplicationContext applicationContext)
+        public ChatHub(ApplicationContext applicationContext, ILogger<ChatHub> logger)
         {
             _applicationContext = applicationContext;
+            _logger = logger;
         }
 
         public override async Task OnConnectedAsync()
@@ -35,6 +38,11 @@ namespace uchat_server.Hubs
                 .Where(c => c.Participants.Any(p => p.Id == userId))
                 .OrderByDescending(c => c.Messages.Max(m => m.SentAt)) // Сортуємо свіжі чати зверху
                 .ToListAsync();
+
+            //Debug.WriteLine($"\nCOUNT OF THE ITEMS{chats.Count}\n");
+            _logger.LogInformation($"\nCOUNT OF ITEMS FOR RETURN {chats.Count}\n");
+            _logger.LogInformation($"\nCOUNT OF ITEMS IN TABLE {_applicationContext.Chats.Count()}\n");
+
             return chats;
         }
 

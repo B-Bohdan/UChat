@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
-using uchat.modelbase.Models;
 using uchat.Models;
 using uchat.Services.IServices;
 using uchat.ViewModels.Tools;
-using uchat.ViewModels.VMEntities;
-using uchat.Views.Pages;
 
 namespace uchat.ViewModels.VMPages
 {
@@ -60,6 +56,19 @@ namespace uchat.ViewModels.VMPages
                 return _hideMenuCommand;
             }
         }
+
+        private ICommand? _createNewChatCommand;
+        public ICommand CreateNewChatCommand
+        {
+            get
+            {
+                if (_createNewChatCommand == null)
+                {
+                    _createNewChatCommand = new RelayCommand(new Action<object>(CreateNewChat));
+                }
+                return _createNewChatCommand;
+            }
+        }
         #endregion
 
         #region Methods
@@ -72,6 +81,11 @@ namespace uchat.ViewModels.VMPages
         public void HideMenu(object obj)
         {
             MenuVisibility = Visibility.Hidden;
+        }
+
+        public void CreateNewChat(object obj)
+        {
+
         }
         #endregion
     }
