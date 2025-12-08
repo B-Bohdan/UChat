@@ -1009,24 +1009,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KakoytoChel228\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\CorpIT\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
+      "projectUniqueName": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
       "projectName": "uchat.modelbase",
-      "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
-      "packagesPath": "C:\\Users\\KakoytoChel228\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\obj\\",
+      "projectPath": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
+      "packagesPath": "C:\\Users\\CorpIT\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat.modelbase\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\KakoytoChel228\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\CorpIT\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1034,7 +1029,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

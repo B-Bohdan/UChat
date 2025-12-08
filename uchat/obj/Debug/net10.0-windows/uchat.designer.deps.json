@@ -53,6 +53,14 @@
           }
         }
       },
+      "Hardcodet.NotifyIcon.Wpf/2.0.1": {
+        "runtime": {
+          "lib/net8.0-windows7.0/Hardcodet.NotifyIcon.Wpf.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.1.2717"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Features": "10.0.0"
@@ -531,6 +539,13 @@
       "sha512": "sha512-6gf5dpi6d+sezfRwqEfA9lDfP7OT5ZrQFgiO1r2jDS8rkMpxaS6/mpTsyW/EgcXr8R4NEHIbAN4FvZClRq0+Zg==",
       "path": "google.apis.oauth2.v2/1.68.0.1869",
       "hashPath": "google.apis.oauth2.v2.1.68.0.1869.nupkg.sha512"
+    },
+    "Hardcodet.NotifyIcon.Wpf/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dtxmeZXzV2GzSm91aZ3hqzgoeVoARSkDPVCYfhVUNyyKBWYxMgNC0EcLiSYxD4Uc4alq/2qb3SmV8DgAENLRLQ==",
+      "path": "hardcodet.notifyicon.wpf/2.0.1",
+      "hashPath": "hardcodet.notifyicon.wpf.2.0.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
       "type": "package",

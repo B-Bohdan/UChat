@@ -69,6 +69,22 @@
           }
         }
       },
+      "Hardcodet.NotifyIcon.Wpf/2.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0-windows7.0/Hardcodet.NotifyIcon.Wpf.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/Hardcodet.NotifyIcon.Wpf.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
         "type": "package",
         "dependencies": {
@@ -779,6 +795,27 @@
         "lib/netstandard2.0/Google.Apis.Oauth2.v2.dll",
         "lib/netstandard2.0/Google.Apis.Oauth2.v2.pdb",
         "lib/netstandard2.0/Google.Apis.Oauth2.v2.xml"
+      ]
+    },
+    "Hardcodet.NotifyIcon.Wpf/2.0.1": {
+      "sha512": "dtxmeZXzV2GzSm91aZ3hqzgoeVoARSkDPVCYfhVUNyyKBWYxMgNC0EcLiSYxD4Uc4alq/2qb3SmV8DgAENLRLQ==",
+      "type": "package",
+      "path": "hardcodet.notifyicon.wpf/2.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "hardcodet.notifyicon.wpf.2.0.1.nupkg.sha512",
+        "hardcodet.notifyicon.wpf.nuspec",
+        "icon.png",
+        "lib/net462/Hardcodet.NotifyIcon.Wpf.dll",
+        "lib/net462/Hardcodet.NotifyIcon.Wpf.xml",
+        "lib/net472/Hardcodet.NotifyIcon.Wpf.dll",
+        "lib/net472/Hardcodet.NotifyIcon.Wpf.xml",
+        "lib/net6.0-windows7.0/Hardcodet.NotifyIcon.Wpf.dll",
+        "lib/net6.0-windows7.0/Hardcodet.NotifyIcon.Wpf.xml",
+        "lib/net8.0-windows7.0/Hardcodet.NotifyIcon.Wpf.dll",
+        "lib/net8.0-windows7.0/Hardcodet.NotifyIcon.Wpf.xml"
       ]
     },
     "Microsoft.AspNetCore.Connections.Abstractions/10.0.0": {
@@ -1565,6 +1602,7 @@
     "net10.0-windows7.0": [
       "Google.Apis.Auth >= 1.73.0",
       "Google.Apis.Oauth2.v2 >= 1.68.0.1869",
+      "Hardcodet.NotifyIcon.Wpf >= 2.0.1",
       "Microsoft.AspNetCore.SignalR.Client >= 10.0.0",
       "Microsoft.EntityFrameworkCore.Sqlite >= 10.0.0",
       "Microsoft.Extensions.DependencyInjection >= 10.0.0",
@@ -1572,24 +1610,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KakoytoChel228\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\CorpIT\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
+      "projectUniqueName": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat\\uchat.csproj",
       "projectName": "uchat",
-      "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
-      "packagesPath": "C:\\Users\\KakoytoChel228\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\obj\\",
+      "projectPath": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat\\uchat.csproj",
+      "packagesPath": "C:\\Users\\CorpIT\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\KakoytoChel228\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\CorpIT\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1597,15 +1630,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj": {
-              "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj"
+            "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat.modelbase\\uchat.modelbase.csproj": {
+              "projectPath": "C:\\Users\\CorpIT\\OneDrive\\Рабочий стол\\UChat\\uchat.modelbase\\uchat.modelbase.csproj"
             }
           }
         }
@@ -1633,6 +1665,10 @@
           "Google.Apis.Oauth2.v2": {
             "target": "Package",
             "version": "[1.68.0.1869, )"
+          },
+          "Hardcodet.NotifyIcon.Wpf": {
+            "target": "Package",
+            "version": "[2.0.1, )"
           },
           "Microsoft.AspNetCore.SignalR.Client": {
             "target": "Package",
