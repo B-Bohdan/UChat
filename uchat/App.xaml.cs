@@ -14,6 +14,7 @@ using uchat.ViewModels;
 using uchat.ViewModels.VMEntities;
 using uchat.ViewModels.VMPages;
 using uchat.Views.Pages;
+using uchat.Views.Dialogs;
 
 namespace uchat
 {
@@ -150,7 +151,14 @@ namespace uchat
         {
             // Тут будемо виводити повідомленя про будь-які помилки, даби не писати try catch скрізь
             e.Handled = true;
-            MessageBox.Show(e.Exception.Message);
+
+            // Берем текущее главное окно как владельца (чтобы диалог был модальным поверх него)
+            // Если ошибка случилась до создания окна, owner будет null (это допустимо)
+            Window? owner = Current.MainWindow;
+
+            // Создаем и показываем окно ошибки
+            ErrorDialog errorDialog = new ErrorDialog(e.Exception.Message, owner);
+            errorDialog.ShowDialog();
         }
 
         private void IninitializeServices()
