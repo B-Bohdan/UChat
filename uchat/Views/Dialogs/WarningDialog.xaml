@@ -1,0 +1,64 @@
+<Window x:Class="uchat.Views.Dialogs.WarningDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:uchat.Views.Dialogs"
+        mc:Ignorable="d"
+        Title="Warning"
+        Height="Auto" Width="400"
+        MinHeight="150" MaxWidth="400" MinWidth="400"
+        ShowInTaskbar="False" WindowStyle="None"
+        SizeToContent="Height" WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True" Background="Transparent">
+
+    <Grid>
+        <Border CornerRadius="10"
+                BorderThickness="1"
+                Background="{StaticResource BackgroundBrush}"
+                BorderBrush="{StaticResource AccentBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,30,20,30">
+                    <Viewbox Width="45" Height="45" VerticalAlignment="Center">
+                        <Path Data="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16" 
+                              Fill="#FFCC00" />
+                    </Viewbox>
+
+                    <TextBlock TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               Margin="20,0,0,0"
+                               Width="260"
+                               FontSize="14"
+                               Foreground="White"
+                               Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:WarningDialog}}"/>
+                </StackPanel>
+
+                <Border Grid.Row="1"
+                        CornerRadius="0,0,10,10"
+                        Background="{StaticResource SenderMessageBackgrounColorBrush}"
+                        Padding="10">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button x:Name="CancelBtn"
+                                Click="Cancel_Click"
+                                Style="{StaticResource BackgroundButtonStyle}"
+                                Width="80" Height="30"
+                                Content="Cancel"
+                                Foreground="White"
+                                Margin="0,0,10,0"/>
+
+                        <Button x:Name="OkBtn"
+                                Click="Ok_Click"
+                                Style="{StaticResource ModerdButtonStyle}"
+                                Width="80" Height="30"
+                                Content="Okay"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
