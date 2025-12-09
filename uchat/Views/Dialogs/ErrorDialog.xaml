@@ -1,0 +1,55 @@
+<Window x:Class="uchat.Views.Dialogs.ErrorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:uchat.Views.Dialogs"
+        mc:Ignorable="d"
+        Title="Error"
+        Height="Auto" Width="400"
+        MinHeight="150" MaxWidth="400" MinWidth="400"
+        ShowInTaskbar="False" WindowStyle="None"
+        SizeToContent="Height" WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True" Background="Transparent">
+
+    <Grid>
+        <Border CornerRadius="10"
+                BorderThickness="1"
+                Background="{StaticResource BackgroundBrush}"
+                BorderBrush="{StaticResource AccentBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,30,20,30">
+                    <Viewbox Width="45" Height="45" VerticalAlignment="Center">
+                        <Path Data="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" 
+                              Fill="#FF5555" />
+                    </Viewbox>
+
+                    <TextBlock TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               Margin="20,0,0,0"
+                               Width="260"
+                               FontSize="14"
+                               Foreground="White"
+                               Text="{Binding Message, RelativeSource={RelativeSource AncestorType=local:ErrorDialog}}"/>
+                </StackPanel>
+
+                <Border Grid.Row="1"
+                        CornerRadius="0,0,10,10"
+                        Background="{StaticResource SenderMessageBackgrounColorBrush}"
+                        Padding="10">
+                    <StackPanel HorizontalAlignment="Right">
+                        <Button Click="Ok_Click"
+                                Style="{StaticResource ModerdButtonStyle}"
+                                Width="80" Height="30"
+                                Content="Ok"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
