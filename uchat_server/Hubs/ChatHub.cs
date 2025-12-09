@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
 using uchat.Models;
@@ -35,15 +34,26 @@ namespace uchat_server.Hubs
             // Завантажуємо всі чати, в яких бере участь користувач
             var chats = await _applicationContext.Chats
                 .Include(c => c.Participants)
-                .Where(c => c.Participants.Any(p => p.Id == userId))
-                .OrderByDescending(c => c.Messages.Max(m => m.SentAt)) // Сортуємо свіжі чати зверху
+                .Where(c => c.Participants!.Any(p => p.Id == userId))
                 .ToListAsync();
 
             //Debug.WriteLine($"\nCOUNT OF THE ITEMS{chats.Count}\n");
-            _logger.LogInformation($"\nCOUNT OF ITEMS FOR RETURN {chats.Count}\n");
-            _logger.LogInformation($"\nCOUNT OF ITEMS IN TABLE {_applicationContext.Chats.Count()}\n");
+            //_logger.LogInformation($"\nCOUNT OF ITEMS FOR RETURN {chats.Count}\n");
+            //_logger.LogInformation($"\nCOUNT OF ITEMS IN TABLE {_applicationContext.Chats.Count()}\n");
 
             return chats;
+        }
+
+        public async Task<List<User>?> GetParticipantsList(int chatId)
+        {
+            var chat = _applicationContext.Chats
+                .Include(c => c.Participants)
+                .FirstOrDefault(c => c.Id == chatId);
+
+            if (chat == null)
+                return null;
+
+            return chat.Participants;
         }
 
         public async Task<List<Message>> GetChatHistory(int chatId, int skip, int take = 20)
@@ -73,11 +83,11 @@ namespace uchat_server.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
         }
 
-        // Видаляє його з групи підключень, щоб сервер більше не надсилав йому інформацію з цього чату
-        public async Task LeaveChatGroup(int chatId)
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
-        }
+        //// Видаляє його з групи підключень, щоб сервер більше не надсилав йому інформацію з цього чату
+        //public async Task LeaveChatGroup(int chatId)
+        //{
+        //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
+        //}
 
         #region Message Interactions
         public async Task SendTextMessageInChat(int senderId, int chatId, TextMessage textMessage)
@@ -184,7 +194,7 @@ namespace uchat_server.Hubs
             await Groups.AddToGroupAsync(context.ConnectionId, $"User_{userId}");
 
             var userChats = await _applicationContext.Chats
-                    .Where(c => c.Participants.Any(p => p.Id == userId))
+                    .Where(c => c.Participants!.Any(p => p.Id == userId))
                     .Select(c => c.Id)
                     .ToListAsync();
 
@@ -194,15 +204,15 @@ namespace uchat_server.Hubs
             }
         }
 
-        public async Task FindUserByEmail(string emailAddress)
+        public async Task<User?> FindUserByEmail(string emailAddress)
         {
             var user = await _applicationContext.Users.FirstOrDefaultAsync(u => u.Email == emailAddress);
-            await Clients.Caller.SendAsync("UserFound", user);
+            return user;
         }
         #endregion
 
         #region Chat Interactions
-        public async Task CreateChatWith(int senderId, int companionId)
+        public async Task CreateChatWith(int senderId, int companionId, string chatName)
         {
             var senderUser = await _applicationContext.Users.FindAsync(senderId);
             var companionUser = await _applicationContext.Users.FindAsync(companionId);
@@ -216,10 +226,8 @@ namespace uchat_server.Hubs
             Chat newChat = new Chat()
             {
                 CreatedAt = DateTime.UtcNow,
-                Tag = $"{senderUser.FirstName} & {companionUser.FirstName}",
+                Tag = chatName,
                 Participants = new List<User> { senderUser, companionUser },
-                CreatorId = senderId,
-                Creator = senderUser
             };
 
             _applicationContext.Chats.Add(newChat);
@@ -229,56 +237,7 @@ namespace uchat_server.Hubs
             await Clients.Group($"User_{companionId}").SendAsync("YouAddedToChat", newChat);
         }
 
-        public async Task CreateChat(int senderId, string tagName)
-        {
-            var creator = await _applicationContext.Users.FindAsync(senderId);
-
-            if (creator == null)
-            {
-                await Clients.Caller.SendAsync("ErrorReceived", "User not found");
-                return;
-            }
-
-            Chat newChat = new Chat()
-            {
-                CreatedAt = DateTime.UtcNow,
-                Tag = tagName,
-                CreatorId = senderId,
-                Creator = creator,
-                Participants = new List<User> { creator }
-            };
-
-            _applicationContext.Chats.Add(newChat);
-            await _applicationContext.SaveChangesAsync();
-
-            await Clients.Caller.SendAsync("ChatCreated", newChat);
-            await Groups.AddToGroupAsync(Context.ConnectionId, $"Chat_{newChat.Id}");
-        }
-
-        public async Task DeleteChat(int ownerId, int chatId)
-        {
-            var chat = await _applicationContext.Chats
-                .FirstOrDefaultAsync(c => c.Id == chatId);
-
-            if (chat == null)
-            {
-                await Clients.Caller.SendAsync("ErrorReceived", "Chat not found.");
-                return;
-            }
-
-            if (chat.CreatorId != ownerId)
-            {
-                await Clients.Caller.SendAsync("ErrorReceived", "Access denied.");
-                return;
-            }
-
-            await Clients.Group($"Chat_{chatId}").SendAsync("ChatDeleted", chatId);
-
-            _applicationContext.Chats.Remove(chat);
-            await _applicationContext.SaveChangesAsync();
-        }
-
-        public async Task AddUserToChat(int senderId, int targetUserId, int chatId)
+        public async Task AddUserToChat(int targetUserId, int chatId)
         {
             var chat = await _applicationContext.Chats
                 .Include(c => c.Participants)
@@ -292,13 +251,13 @@ namespace uchat_server.Hubs
                 return;
             }
 
-            if (chat.Participants.Any(p => p.Id == targetUserId))
+            if (chat.Participants!.Any(p => p.Id == targetUserId))
             {
                 await Clients.Caller.SendAsync("ErrorReceived", "User is already in the chat.");
                 return;
             }
 
-            chat.Participants.Add(targetUser);
+            chat.Participants!.Add(targetUser);
             await _applicationContext.SaveChangesAsync();
 
             await Clients.Group($"Chat_{chatId}").SendAsync("UserJoined", targetUser, chatId);
@@ -315,46 +274,38 @@ namespace uchat_server.Hubs
 
             if (chat == null) return;
 
-            var participant = chat.Participants.FirstOrDefault(u => u.Id == senderId);
+            var participant = chat.Participants!.FirstOrDefault(u => u.Id == senderId);
             if (participant == null)
             {
                 await Clients.Caller.SendAsync("ErrorReceived", "You are not in this chat.");
                 return;
             }
 
-            chat.Participants.Remove(participant);
+            chat.Participants!.Remove(participant);
+
+            if(chat.Participants!.Count < 1)
+                _applicationContext.Chats.Remove(chat);
+
             await _applicationContext.SaveChangesAsync();
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
             await Clients.Group($"Chat_{chatId}").SendAsync("UserLeft", senderId);
+            await Clients.Groups($"User_{senderId}").SendAsync("LeavedSuccessfully", chatId);
         }
 
-        public async Task RemoveFromChat(int ownerId, int targetUserId, int chatId)
+        public async Task<bool> CheckUserInChat(int userId, int chatId)
         {
-            var chat = await _applicationContext.Chats
-                .Include(c => c.Participants)
-                .FirstOrDefaultAsync(c => c.Id == chatId);
-
-            if (chat == null) return;
-
-            if (chat.CreatorId != ownerId)
+            using (_applicationContext)
             {
-                await Clients.Caller.SendAsync("ErrorReceived", "Only owner can remove participants.");
-                return;
+                var chat = _applicationContext.Chats
+                    .Include (c => c.Participants)
+                    .FirstOrDefault(c => c.Id == chatId);
+                
+                if (chat == null) 
+                    return false;
+
+                return chat.Participants!.Any(u => u.Id == userId);
             }
-
-            if (ownerId == targetUserId) return;
-
-            var victim = chat.Participants.FirstOrDefault(u => u.Id == targetUserId);
-            if (victim == null) return;
-
-            chat.Participants.Remove(victim);
-            await _applicationContext.SaveChangesAsync();
-
-            await Clients.Group($"Chat_{chatId}").SendAsync("UserKicked", targetUserId);
-
-            // Повідомляємо користувачу, щоб він відписався через LeaveChatGroup
-            await Clients.Group($"User_{targetUserId}").SendAsync("YouKickedFromChat", chatId);
         }
         #endregion
     }

@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
-using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
@@ -17,8 +14,13 @@ using uchat.Views.Pages;
 
 namespace uchat
 {
-    // 1. Сверстать MainPage
-    // 2. Прописать логику авторизации по порядку, измення страницы и устанавливая подключение
+    // 1. Завершить увправление чатами
+    // + 1.1 - Реализовать поиск пользователя по почте, и создание с ним чата
+    // + 1.2 - Обновить создание чата, добавив возможность задавать название
+    // + 1.3 - Реализовать инструменты лива из чата и приглашения в чат
+    // + 1.4 - Реализовать отображение списка участников чата
+    // 2. Добавить обмен сообщениями в чате
+    // 2.1 Реализовать контекстное меню, и функционал обновления и удаления сообщений в чате
 
     public partial class App : Application
     {
@@ -75,14 +77,10 @@ namespace uchat
 
                 List<Chat>? userChats = await connectionService.GetUserChats(user.Id);
 
-                Current?.Dispatcher.InvokeAsync(() =>
+                if (userChats != null)
                 {
-                    if (userChats != null)
-                    {
-                        appState.Chats = new ObservableCollection<ChatViewModel>
-                        (userChats.Select(c => new ChatViewModel(c)));
-                    }
-                });
+                    await appState.SaveChatsDataAsync(userChats);
+                }
             }
         }
 
@@ -180,6 +178,8 @@ namespace uchat
             serviceCollection.AddTransient<ChatPage>();
             serviceCollection.AddTransient<MenuPage>();
             serviceCollection.AddTransient<ChatInfoPage>();
+            serviceCollection.AddTransient<FoundedUserPage>();
+            serviceCollection.AddTransient<SearchInviteChatPage>();
             #endregion
 
             // Підключення ViewModels у DI контейнер
@@ -188,7 +188,7 @@ namespace uchat
             serviceCollection.AddSingleton<AppState>();
             serviceCollection.AddSingleton<MainPageViewModel>();
             serviceCollection.AddSingleton<AuthorizationPageViewModel>();
-            serviceCollection.AddTransient<ChatPageViewModel>();
+            serviceCollection.AddSingleton<ChatPageViewModel>();
             #endregion
 
             // Підключення сервісів у DI контейнер

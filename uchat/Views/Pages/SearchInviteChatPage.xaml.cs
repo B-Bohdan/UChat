@@ -3,9 +3,9 @@ using uchat.ViewModels.VMPages;
 
 namespace uchat.Views.Pages
 {
-    public partial class ChatPage : Page
+    public partial class SearchInviteChatPage : Page
     {
-        public ChatPage(ChatPageViewModel viewModel)
+        public SearchInviteChatPage(ChatPageViewModel viewModel)
         {
             InitializeComponent();
             this.DataContext = viewModel;

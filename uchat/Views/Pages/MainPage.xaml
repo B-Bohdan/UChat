@@ -40,7 +40,7 @@
 
                         <!--Logo and header-->
                         <StackPanel
-                            Margin="40,10,0,5"
+                            Margin="30,10,0,5"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
 
@@ -66,7 +66,7 @@
                                 FontSize="17"
                                 FontWeight="SemiBold"
                                 Foreground="{StaticResource LogoForegroundColorBrush}"
-                                Text="Uchat"/>
+                                Text="Nexoria"/>
                         </StackPanel>
 
                         <Button
@@ -81,9 +81,11 @@
                 </Border>
 
                 <!--Search bar-->
-                <TextBox Style="{DynamicResource SearchBarStyle}"
+                <TextBox 
+                    Style="{DynamicResource SearchBarStyle}"
                     Grid.Row="1"
-                    Margin="10,0,10,0"/>
+                    Margin="10,0,10,0"
+                    Text="{Binding EnterteredUserEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!--Search button-->
                 <Border
@@ -96,7 +98,10 @@
                     Margin="0,0,10,0">
 
                     <!--Search button-->
-                    <Button Style="{DynamicResource ModerdButtonStyle}" ToolTip="To Find!">
+                    <Button 
+                        Style="{DynamicResource ModerdButtonStyle}" 
+                        ToolTip="To Find!"
+                        Command="{Binding FindUserCommand}">
                         <Image
                             Width="17"
                             Source="../Assets/search.png"/>
@@ -104,12 +109,15 @@
                 </Border>
 
                 <ListBox 
+                    x:Name="chatListBox"
                     ItemsSource="{Binding ApplicationState.Chats}"
+                    SelectedItem="{Binding ApplicationState.SelectedChat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Grid.Row="2"
                     Background="Transparent"
                     BorderThickness="0"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Margin="0,10,0,0">
+                    Margin="0,10,0,0"
+                    SelectionChanged="chatListBox_SelectionChanged">
 
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -186,32 +194,48 @@
                         </Style>
                     </ListBox.ItemContainerStyle>
                 </ListBox>
-
-                <Button
-                    Grid.Row="2"
-                    Height="35"
-                    Width="35"
-                    Style="{StaticResource ModerdButtonStyle}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Margin="0,0,10,10"
-                    ToolTip="Create new chat">
-
-                    <Image
-                        Width="20"
-                        Source="../Assets/add.png"/>
-                </Button>
             </Grid>
 
+            <Border
+                Grid.Column="1"
+                Background="{StaticResource ChatPageBackgroundColorBrush}"/>
+
+            <TextBlock
+                x:Name="noSelectedChatHint"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="No chat selected"
+                Foreground="Gray"
+                FontSize="15"
+                FontWeight="SemiBold"/>
 
             <Frame
-                Grid.Column="1"
-                Source="ChatPage.xaml">
+                x:Name="chatAreaFrame"
+                Grid.Column="1">
             </Frame>
 
             <Frame
                 x:Name="profileFrame"
                 Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.ColumnSpan="2">
+            </Frame>
+
+            <Frame
+                x:Name="findUserFrame"
+                Visibility="{Binding FindUserPanelVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.ColumnSpan="2">
+            </Frame>
+
+            <Frame
+                x:Name="chatMenuPanelFrame"
+                Visibility="{Binding SelectedChatPanelVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Grid.ColumnSpan="2">
+            </Frame>
+
+            <Frame
+                x:Name="addUserToChatMenu"
+                Visibility="{Binding AddUserToChatPanelVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Grid.ColumnSpan="2">
             </Frame>
         </Grid>

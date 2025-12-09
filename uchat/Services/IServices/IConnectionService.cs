@@ -24,8 +24,8 @@ namespace uchat.Services.IServices
         public event Action<int, int>? OnMessageDeleted;
         public event Action<int, int, string>? OnTextMessageEdited;
         public event Action<User, int>? OnUserJoinedToChat;
-        public event Action<User, int>? OnUserKickedFromChat;
         public event Action<User, int>? OnUserLeavedTheChat;
+        public event Action<int>? OnSuccessfullyLeavedTheChat;
 
         public Task<string> GetGoogleIdTokenAsync();
 
@@ -41,5 +41,11 @@ namespace uchat.Services.IServices
         public Task SendMessage(int senderId, int chatId, Message message);
         public Task<User?> GetUserInfo(int userId);
         public Task<List<Chat>?> GetUserChats(int userId);
+        public Task<User?> FindUserByEmail(string email);
+        public Task CreateChatWithUser(int authorizedUserId, int companionUserId, string chatName);
+        public Task LeaveChat(int senderId, int chatId);
+        public Task InviteToChat(int userId, int chatId);
+        public Task<bool> CheckUserInChat(int userId, int chatId);
+        public Task<List<User>?> GetParticipantsFromChat(int chatId);
     }
 }

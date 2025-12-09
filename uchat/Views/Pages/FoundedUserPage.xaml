@@ -1,0 +1,177 @@
+﻿<Page x:Class="uchat.Views.Pages.FoundedUserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:uchat.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="550" d:DesignWidth="800"
+      xmlns:vmp="clr-namespace:uchat.ViewModels.VMPages"
+      Title="FoundedUserPage"
+      d:DataContext="{d:DesignInstance Type=vmp:MainPageViewModel, IsDesignTimeCreatable=False}">
+
+    <Border
+        Background="{StaticResource BlurBackgroundBrush}">
+
+        <Grid>
+            <Border
+                CornerRadius="15"
+                Background="{StaticResource BackgroundBrush}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="300"
+                Height="200">
+
+                <Grid>
+
+                    <TextBlock
+                        x:Name="NoFoundHint"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="Couldn't find anyone :("
+                        Foreground="White">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ResultsListBox, Path=HasItems}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Grid x:Name="InnerGrid">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ResultsListBox, Path=HasItems}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Text="Founded user"
+                                Foreground="{StaticResource HeaderForegroundBrush}"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Margin="20,0,0,0"/>
+                        </Grid>
+
+                        <ListBox
+                            x:Name="ResultsListBox" 
+                            Margin="0,0,0,0"
+                            Grid.Row="1"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ItemsSource="{Binding FoundedUsers}">
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Background" Value="{StaticResource ChatPageBackgroundColorBrush}"/>
+                                    <Setter Property="Height" Value="50"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Border x:Name="bd"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    CornerRadius="5" >
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="50"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Ellipse
+                                                            Grid.Column="0"
+                                                            Height="35"
+                                                            Width="35"
+                                                            Stretch="Uniform"
+                                                            Fill="{StaticResource ChatIconBackgroundColorBrush}">
+                                                        </Ellipse>
+
+                                                        <TextBlock
+                                                            Foreground="{StaticResource UserIconForegroundBrush}"
+                                                            Text="{Binding Initials}"
+                                                            Grid.Column="0"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontWeight="SemiBold"/>
+
+                                                        <StackPanel
+                                                            Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Orientation="Vertical">
+
+                                                            <TextBlock
+                                                                Text="{Binding FullName}"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="{StaticResource UserFullNameForegroundBrush}"/>
+
+                                                            <TextBlock
+                                                                FontSize="11"
+                                                                Text="{Binding Email}"
+                                                                Foreground="{StaticResource UserEmailForegroundBrush}"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            
+                        </ListBox>
+
+                        <TextBox
+                            Grid.Row="2"
+                            Style="{StaticResource EnterChatNameField}"
+                            Margin="5,5,5,10"
+                            Text="{Binding EnteredNewChatName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <Button
+                            Grid.Row="3"
+                            Margin="20,0,20,10"
+                            Style="{StaticResource ModerdButtonStyle}"
+                            Content="Create chat with"
+                            Command="{Binding CreateChatWithCommand}"/>
+                    </Grid>
+
+                    <Button
+                        Height="30"
+                        Width="30"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,5,5,0"
+                        Background="Transparent"
+                        Command="{Binding HideFindUserPanelCommand}"
+                        Style="{StaticResource BackgroundButtonStyle}">
+
+                        <Image
+                            Width="15"
+                            Source="../Assets/close.png"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Page>

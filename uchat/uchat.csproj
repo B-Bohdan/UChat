@@ -15,6 +15,7 @@
     <None Remove="Views\Assets\close.png" />
     <None Remove="Views\Assets\copy.png" />
     <None Remove="Views\Assets\google.png" />
+    <None Remove="Views\Assets\invite.png" />
     <None Remove="Views\Assets\menu.png" />
     <None Remove="Views\Assets\search.png" />
     <None Remove="Views\Assets\send.png" />
@@ -52,6 +53,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Views\Assets\google.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Assets\invite.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Views\Assets\menu.png">

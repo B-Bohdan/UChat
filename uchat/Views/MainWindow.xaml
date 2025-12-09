@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:uchat"
         mc:Ignorable="d"
-        Title="uchat"
+        Title="Nexoria"
         MinHeight="550"
         Height="550" 
         Width="800"

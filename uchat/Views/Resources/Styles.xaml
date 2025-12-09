@@ -35,7 +35,11 @@
 
     <SolidColorBrush x:Key="MessageFieldBackgroundColorBrush" Opacity="0.23" Color="#02256A"/>
     <SolidColorBrush x:Key="MessageFieldForegroundBrush" Color="#ffffff"/>
-    
+
+    <SolidColorBrush x:Key="UserIconForegroundBrush" Color="#000000"/>
+    <SolidColorBrush x:Key="UserFullNameForegroundBrush" Color="#ffffff"/>
+    <SolidColorBrush x:Key="UserEmailForegroundBrush" Color="#808080"/>
+
     <!--<SolidColorBrush x:Key="UserMessageBackgroundColorBrush"/>-->
     <SolidColorBrush x:Key="SenderMessageBackgrounColorBrush" Opacity="0.53" Color="#02256A"/>
     <SolidColorBrush x:Key="SenderNameOnMessageForegroundBrush" Opacity="0.38" Color="#AAF0C4"/>
@@ -43,6 +47,8 @@
     <SolidColorBrush x:Key="MessageTimeHintForegroundBrush" Color="#808080"/>
     <SolidColorBrush x:Key="SenderMessageTextForegroundBrush" Color="#ffffff"/>
     <SolidColorBrush x:Key="UserMessageTextForegroundBrush" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="HeaderForegroundBrush" Color="#B2CCFF"/>
 
     <SolidColorBrush x:Key="ProfileDataFieldsForegroundBrush" Color="#ffffff"/>
 
@@ -279,6 +285,7 @@
 
                             <TextBlock x:Name="placeholder" 
                                    FontWeight="{TemplateBinding FontWeight}" 
+                                   IsHitTestVisible="False"
                                    Margin="4,3.5,0,0" 
                                    FontSize="{TemplateBinding FontSize}" 
                                    Text="Search user by email..." 
@@ -325,9 +332,47 @@
 
                             <TextBlock x:Name="placeholder" 
                                FontWeight="{TemplateBinding FontWeight}" 
+                               IsHitTestVisible="False"
                                Margin="7,9,0,0" 
                                FontSize="{TemplateBinding FontSize}" 
                                Text="Enter your message..." 
+                               Foreground="{StaticResource PlaceHolderForegroundBrush}"
+                               Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EnterChatNameField" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{StaticResource MessageFieldBackgroundColorBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource MessageFieldForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinHeight" Value="35"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Padding" Value="5,9,5,9"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+
+                            <TextBlock x:Name="placeholder" 
+                               IsHitTestVisible="False"
+                               FontWeight="{TemplateBinding FontWeight}" 
+                               Margin="7,9,0,0" 
+                               FontSize="{TemplateBinding FontSize}" 
+                               Text="Enter chat name..." 
                                Foreground="{StaticResource PlaceHolderForegroundBrush}"
                                Visibility="Collapsed"/>
                         </Grid>

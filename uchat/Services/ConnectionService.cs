@@ -35,8 +35,8 @@ namespace uchat.Services
         public event Action<int, int>? OnMessageDeleted;
         public event Action<int, int, string>? OnTextMessageEdited;
         public event Action<User, int>? OnUserJoinedToChat;
-        public event Action<User, int>? OnUserKickedFromChat;
         public event Action<User, int>? OnUserLeavedTheChat;
+        public event Action<int>? OnSuccessfullyLeavedTheChat;
 
         public ConnectionService(IConfigurationService configurationService, IDbContextFactory<ApplicationContext> dbContextFactory)
         {
@@ -94,13 +94,6 @@ namespace uchat.Services
                 await _hubConnection.SendAsync("JoinChatGroup", chat.Id);
                 OnAddedToChat?.Invoke(chat);
             });
-
-            // Підписка на подію видалення поточного користувача з чату (без його волі)
-            _hubConnection.On<int>("YouKickedFromChat", async (chatId) =>
-            {
-                await _hubConnection.SendAsync("LeaveChatGroup", chatId);
-                OnKickedFromChat?.Invoke(chatId);
-            });
             #endregion
 
             /* Події зовшіншньої взаємодії з чатами: Їх створення, видалення та помилка з цим.*/
@@ -110,12 +103,6 @@ namespace uchat.Services
             _hubConnection.On<Chat>("ChatCreated", (chat) =>
             {
                 OnChatCreated?.Invoke(chat);
-            });
-
-            // Чат було видалено, або самим користувачем або адміністратором чату
-            _hubConnection.On<int>("ChatDeleted", (chatId) =>
-            {
-                OnChatDeleted?.Invoke(chatId);
             });
 
             _hubConnection.On<string>("ChatCreationFailed", (message) =>
@@ -159,10 +146,9 @@ namespace uchat.Services
                 OnUserLeavedTheChat?.Invoke(user, chatId);
             });
 
-            // Підписка на подію видалення користувача з чату (без його волі)
-            _hubConnection.On<User, int>("UserKicked", (user, chatId) =>
+            _hubConnection.On<int>("LeavedSuccessfully", (chatId) =>
             {
-                OnUserKickedFromChat?.Invoke(user, chatId);
+                OnSuccessfullyLeavedTheChat?.Invoke(chatId);
             });
             #endregion
         }
@@ -216,6 +202,16 @@ namespace uchat.Services
             {
                 await _hubConnection.SendAsync("AuthorizeUser", googleToken);
             }
+        }
+
+        public async Task<User?> FindUserByEmail(string email)
+        {
+            if(_hubConnection != null)
+            {
+                var user = await _hubConnection.InvokeAsync<User>("FindUserByEmail", email);
+                return user;
+            }
+            return null;
         }
 
         public Task SendMessage(int senderId, int chatId, Message message)
@@ -282,6 +278,49 @@ namespace uchat.Services
 
             // 4. Возвращаем именно IdToken (это та самая JWT строка для сервера)
             return credential.Token.IdToken;
+        }
+
+        public async Task CreateChatWithUser(int authorizedUserId, int companionUserId, string chatName)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("CreateChatWith", authorizedUserId, companionUserId, chatName);
+            }
+        }
+
+        public async Task InviteToChat(int userId, int chatId)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("AddUserToChat", userId, chatId);
+            }
+        }
+
+        public async Task LeaveChat(int senderId, int chatId)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("LeaveChat", senderId, chatId);
+            }
+        }
+
+        public async Task<bool> CheckUserInChat(int userId, int chatId)
+        {
+            if(_hubConnection != null)
+            {
+                return await _hubConnection.InvokeAsync<bool>("CheckUserInChat", userId, chatId);
+            }
+            return false;
+        }
+
+        public async Task<List<User>?> GetParticipantsFromChat(int chatId)
+        {
+            if(_hubConnection != null)
+            {
+                return await _hubConnection.InvokeAsync<List<User>?>("GetParticipantsList", chatId);
+            }
+
+            return null;
         }
     }
 }

@@ -34,6 +34,9 @@ namespace uchat.ViewModels.VMEntities
         {
             get
             {
+                if (Model.Messages == null || !Model.Messages.Any())
+                    return "No messages yet";
+
                 var lastMsg = Model.Messages.OrderByDescending(m => m.SentAt).FirstOrDefault();
                 if (lastMsg is TextMessage txt) return txt.Text;
                 return "No messages yet";

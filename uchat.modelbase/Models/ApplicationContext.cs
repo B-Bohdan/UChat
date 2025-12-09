@@ -41,12 +41,6 @@ namespace uchat.Models
                 entity.HasMany(c => c.Participants)
                       .WithMany(u => u.Chats)      
                       .UsingEntity(j => j.ToTable("ChatParticipants")); // Говоримо EF явно назвати проміжну таблицю "ChatParticipants"
-                
-                entity.HasOne(c => c.Creator)
-                  .WithMany()             
-                  .HasForeignKey(c => c.CreatorId)
-                  .OnDelete(DeleteBehavior.Restrict); 
-
             });
 
             // Налаштування Message

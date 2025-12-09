@@ -1,36 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\views\\pages\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\views\\pages\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainPage.xaml",
-              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Views\\Pages\\MainPage.xaml",
-              "RelativeDocumentMoniker": "uchat\\Views\\Pages\\MainPage.xaml",
-              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\Views\\Pages\\MainPage.xaml",
-              "RelativeToolTip": "uchat\\Views\\Pages\\MainPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-06T21:18:49.541Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
