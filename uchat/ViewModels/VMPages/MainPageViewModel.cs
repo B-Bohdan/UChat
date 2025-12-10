@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using uchat.ViewModels.VMEntities;
 using uchat.Views.Pages;
 using System.IO;
+using uchat.Views.Dialogs;
 
 namespace uchat.ViewModels.VMPages
 {
@@ -268,14 +269,11 @@ namespace uchat.ViewModels.VMPages
 
         private async void LogOut(object obj)
         {
-            MessageBoxResult result = MessageBox.Show(
+            WarningDialog warningDialog = new WarningDialog(
                 "Have you backed up your data? After perfoming this action, message data and log in information will be erased.",
-                "Confirmation Warning",                                         
-                MessageBoxButton.YesNo,                                       
-                MessageBoxImage.Warning                                          
-            );
+                App.Current.MainWindow);
 
-            if(result == MessageBoxResult.Yes)
+            if (warningDialog.ShowDialog() == true)
             {
                 ConfigurationService.Set("AuthorizedUserId", string.Empty);
                 ConfigurationService.Set("IsAuthorized", "false");
@@ -336,9 +334,9 @@ namespace uchat.ViewModels.VMPages
             {
                 if (loggedUser.Id == companion.Id)
                 {
-                    //...
                     // Тут зовем окошко с сообщениям, шо низя создавать чат с самим собой :)
-                    MessageBox.Show("There is no any possible way to create chat with yourself."); // Пока меседж бокс, потом красивый диалог будет
+                    InfoDialog infoDialog = new InfoDialog("There is no any possible way to create chat with yourself.", App.Current.MainWindow);
+                    infoDialog.ShowDialog();
                     return;
                 }
 

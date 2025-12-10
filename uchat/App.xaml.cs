@@ -10,6 +10,7 @@ using uchat.Services.IServices;
 using uchat.ViewModels;
 using uchat.ViewModels.VMEntities;
 using uchat.ViewModels.VMPages;
+using uchat.Views.Dialogs;
 using uchat.Views.Pages;
 
 namespace uchat
@@ -148,7 +149,8 @@ namespace uchat
         {
             // Тут будемо виводити повідомленя про будь-які помилки, даби не писати try catch скрізь
             e.Handled = true;
-            MessageBox.Show(e.Exception.Message);
+            ErrorDialog errorDialog = new ErrorDialog(e.Exception.Message, Current.MainWindow);
+            errorDialog.ShowDialog();
         }
 
         private void IninitializeServices()

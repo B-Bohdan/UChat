@@ -7,6 +7,7 @@ using uchat.Models;
 using uchat.Services.IServices;
 using uchat.ViewModels.Tools;
 using uchat.ViewModels.VMEntities;
+using uchat.Views.Dialogs;
 
 namespace uchat.ViewModels.VMPages
 {
@@ -201,13 +202,15 @@ namespace uchat.ViewModels.VMPages
 
                 if (userToInvite.Id == ApplicationState.LoggedUser!.Id)
                 {
-                    MessageBox.Show("You could not invite yourself to chat.");
+                    InfoDialog infoDialog = new InfoDialog("You could not invite yourself to chat.", App.Current.MainWindow);
+                    infoDialog.ShowDialog();
                     return;
                 }
                 
                 if(await ConnectionService.CheckUserInChat(userToInvite.Id, selectedChat.Id))
                 {
-                    MessageBox.Show("There is already such a user in the chat.");
+                    InfoDialog infoDialog = new InfoDialog("There is already such a user in the chat.", App.Current.MainWindow);
+                    infoDialog.ShowDialog();
                     return;
                 }
 
@@ -219,14 +222,11 @@ namespace uchat.ViewModels.VMPages
 
         private async void LeaveChat(object obj)
         {
-            MessageBoxResult result = MessageBox.Show(
+            WarningDialog warningDialog = new WarningDialog(
                 "Are you sure you want to leave this chat?",
-                "Confirmation",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Information
-            );
+                App.Current.MainWindow);
 
-            if (result == MessageBoxResult.Yes)
+            if (warningDialog.ShowDialog() == true)
             {
                 var loggedUser = ApplicationState.LoggedUser;
                 var selectedChat = ApplicationState.SelectedChat;

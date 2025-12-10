@@ -47,7 +47,7 @@
                                 Click="Cancel_Click"
                                 Style="{StaticResource BackgroundButtonStyle}"
                                 Width="80" Height="30"
-                                Content="Cancel"
+                                Content="No"
                                 Foreground="White"
                                 Margin="0,0,10,0"/>
 
@@ -55,7 +55,7 @@
                                 Click="Ok_Click"
                                 Style="{StaticResource ModerdButtonStyle}"
                                 Width="80" Height="30"
-                                Content="Okay"/>
+                                Content="Yes"/>
                     </StackPanel>
                 </Border>
             </Grid>
