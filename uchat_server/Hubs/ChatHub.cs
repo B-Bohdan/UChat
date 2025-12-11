@@ -30,7 +30,7 @@ namespace uchat_server.Hubs
             return user;
         }
 
-        // 1. Метод получения списка чатов (Только с последним сообщением)
+        // Метод получения списка чатов (Только с последним сообщением)
         public async Task<List<Chat>> GetUserChats(int userId)
         {
             var chats = await _applicationContext.Chats
@@ -45,10 +45,10 @@ namespace uchat_server.Hubs
 
                     // ИСПРАВЛЕНИЕ ТУТ:
                     Messages = c.Messages!
-                                .OfType<TextMessage>()    // 1. Фильтруем только TextMessage (EF это умеет)
+                                .OfType<TextMessage>()    // Фильтруем только TextMessage (EF это умеет)
                                 .OrderByDescending(m => m.SentAt)
                                 .Take(1)
-                                .Cast<Message>()          // 2. Приводим обратно к Message для списка
+                                .Cast<Message>()          // Приводим обратно к Message для списка
                                 .ToList()
                 })
                 .ToListAsync();
@@ -56,19 +56,14 @@ namespace uchat_server.Hubs
             return chats;
         }
 
-        // 2. Новый метод для получения истории (пагинация пока не реализована, грузим N последних)
-        public async Task<List<TextMessage>> GetChatMessages(int chatId, int skip = 0, int take = 50)
+        // Новый метод для получения истории (пагинация пока не реализована, грузим N последних)
+        public async Task<List<TextMessage>> GetChatMessages(int chatId)
         {
-            // Обращаемся сразу к таблице TextMessages, чтобы EF Core отфильтровал только текстовые сообщения
             var messages = await _applicationContext.TextMessages
                 .Where(m => m.ChatId == chatId)
-                .Include(m => m.Sender) // Обязательно грузим автора!
-                .OrderByDescending(m => m.SentAt) // Сортируем от новых к старым для пагинации
-                .Skip(skip)
-                .Take(take)
-                .OrderBy(m => m.SentAt) // Разворачиваем обратно в хронологическом порядке для UI
+                .Include(m => m.Sender)
+                .OrderBy(m => m.SentAt)
                 .ToListAsync();
-
             return messages;
         }
 

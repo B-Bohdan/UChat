@@ -11,6 +11,7 @@
         MinHeight="550"
         Height="550" 
         Width="800"
+        Icon="/Views/Assets/logo.ico"
         WindowStartupLocation="CenterScreen">
     
     <!--Пізніше тут реалізуємо кастомний titlebar, 
@@ -26,7 +27,7 @@
         </Grid.RowDefinitions>
         <tb:TaskbarIcon
             IconSource="/Views/Assets/tray.ico"
-            ToolTipText="Uchat Massager"
+            ToolTipText="Nexoria"
             DoubleClickCommand="{Binding ShowWindowCommand}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>

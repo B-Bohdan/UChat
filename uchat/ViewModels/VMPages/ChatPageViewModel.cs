@@ -236,8 +236,7 @@ namespace uchat.ViewModels.VMPages
 
                     if (chat != null)
                     {
-                        TextMessageViewModel textMessageView = new TextMessageViewModel(textMessage, 
-                            ApplicationState.LoggedUser!.Id, new UserViewModel(textMessage.Sender));
+                        TextMessageViewModel textMessageView = new TextMessageViewModel(textMessage, new UserViewModel(textMessage.Sender));
 
                         SaveIncomingMessageToLocalDb(textMessage);
 

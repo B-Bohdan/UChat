@@ -14,6 +14,10 @@ namespace uchat.ViewModels
         private readonly IDbContextFactory<ApplicationContext> ContextFactory;
         private readonly IConnectionService _connectionService;
 
+        // ГЛОБАЛЬНОЕ СТАТИЧЕСКОЕ СВОЙСТВО
+        // Позволяет любой ViewModel узнать ID текущего пользователя без передачи параметров
+        public static int CurrentUserId { get; private set; }
+
         public AppState(IConnectionService connectionService, IDbContextFactory<ApplicationContext> contextFactory, IConfigurationService configurationService)
         {
             _connectionService = connectionService;
@@ -21,19 +25,20 @@ namespace uchat.ViewModels
             Chats = new ObservableCollection<ChatViewModel>();
 
             var connectionState = connectionService.GetConnectionState();
+            string? userIdStr = configurationService.Get<string>("AuthorizedUserId");
 
-            string? userId = configurationService.Get<string>("AuthorizedUserId");
-
-            if (int.TryParse(userId, out int id))
+            if (int.TryParse(userIdStr, out int userId))
             {
                 using (var context = contextFactory.CreateDbContext())
                 {
-                    var userFromLocal = context.Users.FirstOrDefault(u => u.Id == id);
+                    var userFromLocal = context.Users.FirstOrDefault(u => u.Id == userId);
 
                     if (userFromLocal != null)
                     {
+                        // Присвоение LoggedUser автоматически обновит CurrentUserId (см. сеттер ниже)
                         LoggedUser = new UserViewModel(userFromLocal);
 
+                        // 1. Загружаем чаты со всем содержимым из локальной БД
                         var localChats = context.Chats
                                                 .Include(c => c.Participants)
                                                 .Include(c => c.Messages!)
@@ -44,25 +49,11 @@ namespace uchat.ViewModels
 
                         foreach (var chatModel in localChats)
                         {
-                            var chatVm = new ChatViewModel(chatModel);
-
-                            // Если в модели есть сообщения, обрабатываем их
-                            if (chatModel.Messages != null)
-                            {
-                                var sortedMessages = chatModel.Messages.OrderBy(m => m.SentAt);
-
-                                foreach (var msgModel in sortedMessages)
-                                {
-                                    var msgVm = new TextMessageViewModel((TextMessage)msgModel, LoggedUser!.Id, new UserViewModel(msgModel.Sender));
-
-                                    chatVm.Messages.Add(msgVm);
-                                }
-                            }
-
-                            loadedViewModels.Add(chatVm);
+                            // Просто создаем ViewModel. 
+                            // Конструктор ChatViewModel сам отсортирует сообщения и добавит их внутрь.
+                            loadedViewModels.Add(new ChatViewModel(chatModel));
                         }
 
-                        // Присваиваем итоговую коллекцию
                         Chats = new ObservableCollection<ChatViewModel>(loadedViewModels);
                     }
                 }
@@ -73,7 +64,15 @@ namespace uchat.ViewModels
         public UserViewModel? LoggedUser
         {
             get { return _loggeduser; }
-            set { _loggeduser = value; OnPropertyChanged(); }
+            set
+            {
+                _loggeduser = value;
+
+                // АВТОМАТИЧЕСКОЕ ОБНОВЛЕНИЕ ID
+                CurrentUserId = _loggeduser?.Id ?? 0;
+
+                OnPropertyChanged();
+            }
         }
 
         private ObservableCollection<ChatViewModel>? _chats;
@@ -95,6 +94,7 @@ namespace uchat.ViewModels
                 _selectedChat = value;
                 OnPropertyChanged();
 
+                // Как только выбрали чат - пытаемся подгрузить историю с сервера
                 if (_selectedChat != null)
                 {
                     _ = LoadHistoryForSelectedChat(_selectedChat);
@@ -108,7 +108,7 @@ namespace uchat.ViewModels
             get => _isInMessageEditingMode;
             set
             {
-                _isInMessageEditingMode = value; 
+                _isInMessageEditingMode = value;
                 OnPropertyChanged();
             }
         }
@@ -126,6 +126,7 @@ namespace uchat.ViewModels
 
         #region Methods
 
+        // Загрузка истории сообщений при выборе чата
         private async Task LoadHistoryForSelectedChat(ChatViewModel chatVm)
         {
             try
@@ -135,7 +136,7 @@ namespace uchat.ViewModels
 
                 if (serverMessages != null && serverMessages.Any())
                 {
-                    // Cохраняем в Локальную БД и обновляем UI
+                    // Сохраняем в Локальную БД и обновляем UI
                     await SaveMessagesToLocalDbAndUi(chatVm, serverMessages);
                 }
             }
@@ -145,8 +146,10 @@ namespace uchat.ViewModels
             }
         }
 
+        // Сохранение списка сообщений (пришедших с сервера)
         private async Task SaveMessagesToLocalDbAndUi(ChatViewModel chatVm, List<TextMessage> messages)
         {
+            // Обновляем UI
             App.Current.Dispatcher.Invoke(() =>
             {
                 foreach (var msg in messages)
@@ -154,9 +157,8 @@ namespace uchat.ViewModels
                     // Проверяем, нет ли уже такого сообщения в ViewModel
                     if (!chatVm.Messages.Any(vm => vm.Model.Id == msg.Id))
                     {
-                        var msgVm = new TextMessageViewModel(msg, LoggedUser!.Id,
-                            new UserViewModel(msg.Sender));
-
+                        // Используем фабрику Create. Она сама определит тип и возьмет CurrentUserId.
+                        var msgVm = MessageViewModel.Create(msg);
                         chatVm.AddMessage(msgVm);
                     }
                 }
@@ -169,32 +171,33 @@ namespace uchat.ViewModels
                 {
                     foreach (var msg in messages)
                     {
+                        // Пропускаем дубликаты
                         if (context.Messages.Any(m => m.Id == msg.Id)) continue;
 
                         if (msg.Sender != null)
                         {
-                            // Проверяем, не следит ли контекст УЖЕ за этим юзером
+                            // Ищем в локальном кэше EF (то, что добавили в этом цикле ранее)
                             var trackedUser = context.Users.Local.FirstOrDefault(u => u.Id == msg.Sender.Id);
 
                             if (trackedUser != null)
                             {
-                                // Подменяем пришедший объект на тот, который уже в памяти.
+                                // Подменяем объект на тот, что уже в памяти
                                 msg.Sender = trackedUser;
                             }
                             else
                             {
-                                // Если в памяти нет, проверяем в базе данных
+                                // Если в памяти нет, ищем в БД
                                 var dbUser = context.Users.FirstOrDefault(u => u.Id == msg.Sender.Id);
 
                                 if (dbUser != null)
                                 {
+                                    // Подменяем объект на тот, что в БД
                                     msg.Sender = dbUser;
                                 }
                                 else
                                 {
-                                    msg.Sender.Chats = null!;
-
-                                    // Явно говорим, что этого юзера надо добавить
+                                    // Юзера нет нигде. Добавляем как нового.
+                                    msg.Sender.Chats = null!; // Чистим связи
                                     context.Entry(msg.Sender).State = EntityState.Added;
                                 }
                             }
@@ -202,7 +205,7 @@ namespace uchat.ViewModels
 
                         // Настройка сообщения
                         msg.ChatId = chatVm.Model.Id;
-                        msg.ChatInstance = null!;
+                        msg.ChatInstance = null!; // Разрываем цикл ссылок
 
                         context.Entry(msg).State = EntityState.Added;
                     }
@@ -212,11 +215,13 @@ namespace uchat.ViewModels
             });
         }
 
+        // Обновление списка чатов (после логина или при старте)
         public async Task SaveChatsDataAsync(IEnumerable<Chat> incomingChats)
         {
+            // 1. Обновляем UI
             App.Current.Dispatcher.Invoke(() =>
             {
-                // Если коллекция null, создаем новую
+                // Если коллекции нет - создаем
                 if (Chats == null) Chats = new ObservableCollection<ChatViewModel>();
 
                 var incomingList = incomingChats.ToList();
@@ -234,31 +239,31 @@ namespace uchat.ViewModels
                 // Обновляем существующие или добавляем новые
                 foreach (var incomingChat in incomingList)
                 {
-                    // Ищем чат в памяти (который мы загрузили из локальной БД в конструкторе)
                     var existingVm = Chats.FirstOrDefault(vm => vm.Model.Id == incomingChat.Id);
 
                     if (existingVm != null)
                     {
-                        // Обновляем только мета-данные, которые могли измениться на сервере.
+                        // Чат уже есть. Обновляем мета-данные.
                         existingVm.Tag = incomingChat.Tag;
                     }
                     else
                     {
+                        // Чата нет. Создаем новый.
                         Chats.Add(new ChatViewModel(incomingChat));
                     }
                 }
             });
 
-            // Сохраняем структуру чатов в БД
+            // 2. Сохраняем структуру чатов в БД
             await Task.Run(async () =>
             {
                 using (var context = ContextFactory.CreateDbContext())
                 {
-                    var dbChats = await context.Chats.ToListAsync(); // Тут сообщения грузить не обязательно
+                    var dbChats = await context.Chats.ToListAsync();
 
                     foreach (var incomingChat in incomingChats)
                     {
-                        // Чистим навигационные свойства, для EF
+                        // Чистим навигационные свойства для EF
                         incomingChat.Messages = null;
                         incomingChat.Participants = null;
 
@@ -266,17 +271,17 @@ namespace uchat.ViewModels
 
                         if (existingChat != null)
                         {
-                            // Обновляем поля (название и т.д.)
+                            // Обновляем существующий
                             context.Entry(existingChat).CurrentValues.SetValues(incomingChat);
                         }
                         else
                         {
-                            // Добавляем новый чат в кэш
+                            // Добавляем новый
                             context.Entry(incomingChat).State = EntityState.Added;
                         }
                     }
 
-                    // Удаляем лишние из БД
+                    // Удаляем лишние чаты из БД
                     var incomingKeys = incomingChats.Select(c => c.Id).ToList();
                     var toDelete = dbChats.Where(c => !incomingKeys.Contains(c.Id)).ToList();
                     context.Chats.RemoveRange(toDelete);

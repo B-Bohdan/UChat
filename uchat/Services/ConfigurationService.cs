@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Windows;
 using uchat.Services.IServices;
 
 namespace uchat.Services
@@ -85,17 +86,24 @@ namespace uchat.Services
 
         private async Task SaveConfigurationAsync()
         {
-            string json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions
+            try
             {
-                WriteIndented = true
-            });
+                string json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
 
-            //if(!File.Exists(@$"{_localFolder}\{DirectoryName}"))
-            //{
-            //    Directory.CreateDirectory(@$"{_localFolder}\{DirectoryName}");
-            //}
+                //if(!File.Exists(@$"{_localFolder}\{DirectoryName}"))
+                //{
+                //    Directory.CreateDirectory(@$"{_localFolder}\{DirectoryName}");
+                //}
 
-            await File.WriteAllTextAsync(@$"{ConfigFileName}", json);
+                await File.WriteAllTextAsync(@$"{ConfigFileName}", json);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}");
+            }
         }
 
         private bool FileExists(string fileName)

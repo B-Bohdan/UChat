@@ -286,7 +286,7 @@ namespace uchat.ViewModels.VMPages
                     await context.SaveChangesAsync();
                 }
 
-                //ApplicationState.Chats!.Clear();
+                ApplicationState.Chats!.Clear();
 
                 await ConnectionService.RemoveOldConnection(ApplicationState.LoggedUser!.Id);
 

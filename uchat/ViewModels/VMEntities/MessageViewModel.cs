@@ -1,4 +1,5 @@
 ﻿using uchat.modelbase.Models.Messages;
+using uchat.ViewModels; // Чтобы видеть AppState
 
 namespace uchat.ViewModels.VMEntities
 {
@@ -6,11 +7,22 @@ namespace uchat.ViewModels.VMEntities
     {
         private UserViewModel? _senderVm;
 
-        public MessageViewModel(Message model, UserViewModel? senderVm, int currentUserId) : base(model)
+        public MessageViewModel(Message model, UserViewModel? senderVm) : base(model)
         {
-            // Якщо передали VM користувача встановлюємо, якщо ні то ініціалізуємо на льоту
             _senderVm = senderVm ?? (model.Sender != null ? new UserViewModel(model.Sender) : null);
-            IsMine = (model.Sender?.Id ?? 0) == currentUserId;
+        }
+
+        // Статический метод-фабрика для создания правильного типа ViewModel
+        public static MessageViewModel Create(Message model)
+        {
+            var senderVm = model.Sender != null ? new UserViewModel(model.Sender) : null;
+
+            if (model is TextMessage textMessage)
+            {
+                return new TextMessageViewModel(textMessage, senderVm);
+            }
+
+            return new MessageViewModel(model, senderVm);
         }
 
         public UserViewModel? Sender
@@ -19,10 +31,12 @@ namespace uchat.ViewModels.VMEntities
             private set => Set(ref _senderVm, value);
         }
 
-        public bool IsMine { get; }
+        // Глобальная проверка "Свое/Чужое"
+        public bool IsMine => (Model.Sender?.Id ?? 0) == AppState.CurrentUserId;
 
         public DateTime SentAt => Model.SentAt;
 
+        // Конвертация UTC -> Локальное время системы
         public string TimeDisplay
         {
             get
@@ -30,9 +44,7 @@ namespace uchat.ViewModels.VMEntities
                 var utcDate = Model.SentAt.Kind == DateTimeKind.Unspecified
                     ? DateTime.SpecifyKind(Model.SentAt, DateTimeKind.Utc)
                     : Model.SentAt;
-                var localDate = utcDate.ToLocalTime();
-
-                return localDate.ToString("t");
+                return utcDate.ToLocalTime().ToString("t");
             }
         }
 

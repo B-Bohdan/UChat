@@ -311,7 +311,7 @@ namespace uchat.Services
         {
             if(_hubConnection != null)
             {
-                return await _hubConnection.InvokeAsync<List<TextMessage>>("GetChatMessages", chatId, 0, 50);
+                return await _hubConnection.InvokeAsync<List<TextMessage>>("GetChatMessages", chatId);
             }
 
             return null;

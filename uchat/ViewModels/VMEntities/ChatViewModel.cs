@@ -8,10 +8,22 @@ namespace uchat.ViewModels.VMEntities
     {
         public ChatViewModel(Chat model) : base(model)
         {
-            Messages = new ObservableCollection<MessageViewModel>();
             Participants = new ObservableCollection<UserViewModel>(
                 model.Participants!.Select(u => new UserViewModel(u))
             );
+
+            Messages = new ObservableCollection<MessageViewModel>();
+
+            // Если в модели есть сообщения, создаем для них VM
+            if (model.Messages != null)
+            {
+                var sortedMessages = model.Messages.OrderBy(m => m.SentAt);
+                foreach (var msg in sortedMessages)
+                {
+                    // Фабрика сама разберется с типом и ID юзера
+                    Messages.Add(MessageViewModel.Create(msg));
+                }
+            }
         }
 
         public ObservableCollection<MessageViewModel> Messages { get; }
@@ -45,16 +57,20 @@ namespace uchat.ViewModels.VMEntities
 
         public void AddMessage(MessageViewModel messageVm)
         {
-            // Додаємо до візуальної коллекції
+            // В UI
             Messages.Add(messageVm);
 
-            // Додаємо до моделі
-            if (!Model.Messages!.Contains(messageVm.Model))
+            // В Модель (с защитой от null)
+            if (Model.Messages == null)
+            {
+                Model.Messages = new List<Message>();
+            }
+
+            if (!Model.Messages.Contains(messageVm.Model))
             {
                 Model.Messages.Add(messageVm.Model);
             }
 
-            // Повідомляємо UI, що останнє повідомлення змінилось
             OnPropertyChanged(nameof(LastMessagePreview));
         }
     }
