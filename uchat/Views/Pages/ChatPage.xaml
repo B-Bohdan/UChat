@@ -20,57 +20,64 @@
             </Grid.RowDefinitions>
 
             <!--Header-->
-            <Grid
-                Grid.Row="0">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
+            <Border
+                Grid.Row="0"
+                Background="{StaticResource ChatPageBackgroundColorBrush}">
 
-                <Button
-                    Grid.Column="0"
-                    Height="50"
-                    Width="50"
-                    Style="{StaticResource RoundButtonStyle}"
-                    Command="{Binding OpenChatMenuCommand}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Image
+                    <Button
                         Grid.Column="0"
-                        Width="23"
-                        Source="../Assets/chat_icon.png"/>
-                </Button>
+                        Height="50"
+                        Width="50"
+                        Style="{StaticResource RoundButtonStyle}"
+                        Command="{Binding OpenChatMenuCommand}">
 
-                <!--Chat name-->
-                <TextBlock
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Text="{Binding ApplicationState.SelectedChat.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Foreground="{StaticResource ChatNameForegroundBrush}"
-                    FontSize="13"
-                    FontWeight="SemiBold"/>
+                        <Image
+                            Grid.Column="0"
+                            Width="23"
+                            Source="../Assets/chat_icon.png"/>
+                    </Button>
 
-                <Button
-                    Grid.Column="2"
-                    Style="{StaticResource ModerdButtonStyle}"
-                    Height="30"
-                    Width="30"
-                    ToolTip="Invite new person"
-                    Command="{Binding OpenSearchInvitePanelCommand}">
+                    <!--Chat name-->
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Text="{Binding ApplicationState.SelectedChat.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Foreground="{StaticResource ChatNameForegroundBrush}"
+                        FontSize="13"
+                        FontWeight="SemiBold"/>
 
-                    <Image
-                        Width="25"
-                        Source="../Assets/invite.png"/>
-                </Button>
-            </Grid>
+                    <Button
+                        Grid.Column="2"
+                        Style="{StaticResource ModerdButtonStyle}"
+                        Height="30"
+                        Width="30"
+                        ToolTip="Invite new person"
+                        Command="{Binding OpenSearchInvitePanelCommand}">
+
+                        <Image
+                            Width="25"
+                            Source="../Assets/invite.png"/>
+                    </Button>
+                </Grid>
+
+            </Border>
 
             <!--Message container-->
             <ListBox
+                x:Name="ChatListBox"
                 Grid.Row="1"
                 Background="Transparent"
-                BorderThickness="0">
+                BorderThickness="0"
+                ItemsSource="{Binding ApplicationState.SelectedChat.Messages}">
 
                 <ListBox.Resources>
                     <ControlTemplate x:Key="IncomingMessageTemplate" TargetType="ListBoxItem">
@@ -83,17 +90,18 @@
                             <Border Background="{StaticResource SenderMessageBackgrounColorBrush}" 
                                     CornerRadius="15,15,15,0" 
                                     Grid.Row="0"
-                                    Padding="10">
+                                    Padding="10,10,10,10">
                                 
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
 
                                     <TextBlock
                                         Foreground="{StaticResource SenderNameOnMessageForegroundBrush}"
-                                        Text="Ivan Rusin"
+                                        Text="{Binding Sender.FullName}"
                                         FontWeight="SemiBold"/>
 
                                     <TextBlock
@@ -102,7 +110,29 @@
                                         Margin="0,5,0,0"
                                         TextWrapping="Wrap"
                                         MaxWidth="350"
-                                        Text="Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World"/>
+                                        Text="{Binding Text}"/>
+
+                                    <TextBlock Margin="0,2,0,0"
+                                       Grid.Row="2"
+                                       Foreground="{StaticResource SenderMessageEditedHintForegroundBrush}"
+                                       FontWeight="SemiBold"
+                                       FontSize="10"
+                                       HorizontalAlignment="Left">
+
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Edited"/>
+
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Border>
 
@@ -111,7 +141,7 @@
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Right"
                                 Grid.Row="1"
-                                Text="2:29 PM"
+                                Text="{Binding TimeDisplay}"
                                 Foreground="{StaticResource MessageTimeHintForegroundBrush}"/>
                         </Grid>
                     </ControlTemplate>
@@ -124,19 +154,44 @@
                             </Grid.RowDefinitions>
                             <Border Background="{StaticResource AccentBrush}" 
                                     CornerRadius="15,15,0,15" 
-                                    Padding="10">
+                                    Padding="10,10,10,10"
+                                    HorizontalAlignment="Right"
+                                    Width="auto">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
-                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
 
                                     <TextBlock
                                         Foreground="{StaticResource UserMessageTextForegroundBrush}"
-                                        Grid.Row="1"
+                                        Grid.Row="0"
                                         TextWrapping="Wrap"
                                         MaxWidth="350"
-                                        Text="Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World"/>
+                                        FontWeight="SemiBold"
+                                        Text="{Binding Text}"/>
+
+                                    <TextBlock Margin="0,2,0,0"
+                                       Grid.Row="1"
+                                       Foreground="{StaticResource UserMessageEditedHintForegroundBrush}"
+                                       FontWeight="SemiBold"
+                                       FontSize="10"
+                                       HorizontalAlignment="Right">
+
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Edited"/>
+
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </Grid>
                             </Border>
 
@@ -145,7 +200,7 @@
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left"
                                 Grid.Row="1"
-                                Text="2:29 PM"
+                                Text="{Binding TimeDisplay}"
                                 Foreground="{StaticResource MessageTimeHintForegroundBrush}"/>
                         </Grid>
                     </ControlTemplate>
@@ -157,12 +212,28 @@
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
-
                         <Setter Property="Template" Value="{StaticResource IncomingMessageTemplate}"/>
+                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"
+                                          Command="{Binding PlacementTarget.Tag.DeleteMessageCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding}" />
+
+                                    <MenuItem Header="Edit"
+                                          Command="{Binding PlacementTarget.Tag.EditMessageCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding}" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
 
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsMine}" Value="True">
                                 <Setter Property="Template" Value="{StaticResource OutgoingMessageTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMine}" Value="False">
+                                <Setter Property="ContextMenu" Value="{x:Null}"/>
                             </DataTrigger>
 
                             <Trigger Property="IsSelected" Value="True">
@@ -186,17 +257,79 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border
+                        Height="25"
+                        Background="{StaticResource ChatPageBackgroundColorBrush}"
+                        CornerRadius="5"
+                        BorderThickness="1,1,1,1"
+                        VerticalAlignment="Top"
+                        BorderBrush="{StaticResource AccentBrush}">
+
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ApplicationState.IsInMessageEditingMode}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <Grid>
+
+                            <Image
+                                Width="15"
+                                Margin="5,0,0,0"
+                                Source="../Assets/edit.png"
+                                HorizontalAlignment="Left"/>
+
+                            <TextBlock
+                                Text="Editing"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                VerticalAlignment="Center"
+                                Margin="25,0,0,0"/>
+
+                            <Button
+                                HorizontalAlignment="Right"
+                                Width="25"
+                                Command="{Binding CancelEditingModeCommand}"
+                                Style="{StaticResource ModerdButtonStyle}"
+                                Background="{StaticResource ChatPageBackgroundColorBrush}">
+
+                                <Image
+                                    Width="13"
+                                    Source="../Assets/close.png"/>
+                            </Button>
+                        </Grid>
+                    </Border>
 
                     <TextBox 
+                        Grid.Row="1"
                         Style="{DynamicResource MessageFieldStyle}"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"
+                        Text="{Binding MessageToSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding SendMessageCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
 
                     <!--Send message button-->
                     <Button
+                        Grid.Row="1"
                         Grid.Column="1"
                         Height="50"
                         Width="50"
-                        Style="{StaticResource RoundButtonStyle}">
+                        Style="{StaticResource RoundButtonStyle}"
+                        Command="{Binding SendMessageCommand}">
 
                         <Image
                             Width="25"

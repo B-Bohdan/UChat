@@ -23,18 +23,16 @@ namespace uchat.ViewModels.VMEntities
 
         public DateTime SentAt => Model.SentAt;
 
-        public string TimeDisplay => Model.SentAt.ToLocalTime().ToString("t");
-
-        public bool IsRead
+        public string TimeDisplay
         {
-            get => Model.IsRead;
-            set
+            get
             {
-                if (Model.IsRead != value)
-                {
-                    Model.IsRead = value;
-                    OnPropertyChanged();
-                }
+                var utcDate = Model.SentAt.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(Model.SentAt, DateTimeKind.Utc)
+                    : Model.SentAt;
+                var localDate = utcDate.ToLocalTime();
+
+                return localDate.ToString("t");
             }
         }
 

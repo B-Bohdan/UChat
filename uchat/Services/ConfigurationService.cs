@@ -10,9 +10,9 @@ namespace uchat.Services
     public class ConfigurationService : IConfigurationService
     {
         private const string ConfigFileName = "appSettings.json";
-        private const string DirectoryName = "UChat";
+        //private const string DirectoryName = "UChat";
         private Dictionary<string, string> _settings = new();
-        private readonly string _localFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        //private readonly string _localFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         private bool _isInitialized = false;
 
@@ -26,7 +26,7 @@ namespace uchat.Services
             {
                 _settings = new Dictionary<string, string>
                 {
-                    { "ServerConnectionString", "" },
+                    { "ServerConnectionString", "http://127.0.0.1:8000/chatHub" },
                     { "IsAuthorized", "false"},
                     { "AuthorizedUserId", "" }
                 };
@@ -72,7 +72,7 @@ namespace uchat.Services
         {
             try
             {
-                string json = await File.ReadAllTextAsync(@$"{_localFolder}\{DirectoryName}\{ConfigFileName}");
+                string json = await File.ReadAllTextAsync(@$"{ConfigFileName}");
 
                 _settings = JsonSerializer.Deserialize<Dictionary<string, string>>(json)
                             ?? new Dictionary<string, string>();
@@ -90,17 +90,17 @@ namespace uchat.Services
                 WriteIndented = true
             });
 
-            if(!File.Exists(@$"{_localFolder}\{DirectoryName}"))
-            {
-                Directory.CreateDirectory(@$"{_localFolder}\{DirectoryName}");
-            }
+            //if(!File.Exists(@$"{_localFolder}\{DirectoryName}"))
+            //{
+            //    Directory.CreateDirectory(@$"{_localFolder}\{DirectoryName}");
+            //}
 
-            await File.WriteAllTextAsync(@$"{_localFolder}\{DirectoryName}\{ConfigFileName}", json);
+            await File.WriteAllTextAsync(@$"{ConfigFileName}", json);
         }
 
         private bool FileExists(string fileName)
         {
-            if (File.Exists(@$"{_localFolder}\{DirectoryName}\{fileName}"))
+            if (File.Exists(@$"{fileName}"))
             {
                 return true;
             }

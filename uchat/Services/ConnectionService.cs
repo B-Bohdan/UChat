@@ -4,6 +4,7 @@ using Google.Apis.Util.Store;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Windows;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
 using uchat.Models;
@@ -26,10 +27,6 @@ namespace uchat.Services
         public event Action<User>? OnAuthorizationConfirmed;
         public event Action<User?>? OnUserFound;
         public event Action<Chat>? OnAddedToChat;
-        public event Action<int>? OnKickedFromChat;
-
-        public event Action<Chat>? OnChatCreated;
-        public event Action<int>? OnChatDeleted;
 
         public event Action<Message, int>? OnMessageReceived;
         public event Action<int, int>? OnMessageDeleted;
@@ -51,7 +48,7 @@ namespace uchat.Services
                 .WithAutomaticReconnect()
                 .Build();
 
-            // 5. Запускаем
+            // Запускаем
             await StartAsync();
 
             // Підписка на подію закриття з'єднання
@@ -63,7 +60,7 @@ namespace uchat.Services
 
             _hubConnection.On<string>("ErrorReceived", (errorMessage) =>
             {
-
+                MessageBox.Show(errorMessage);
             });
 
             /* Загальні події */
@@ -96,27 +93,12 @@ namespace uchat.Services
             });
             #endregion
 
-            /* Події зовшіншньої взаємодії з чатами: Їх створення, видалення та помилка з цим.*/
-            #region Chat External Events
-
-            // Користувач безпосередньо створив чат
-            _hubConnection.On<Chat>("ChatCreated", (chat) =>
-            {
-                OnChatCreated?.Invoke(chat);
-            });
-
-            _hubConnection.On<string>("ChatCreationFailed", (message) =>
-            {
-
-            });
-            #endregion
-
             /* Події внутрішньої взаємодії з чатами: Надходження повідомлень,
             редагування, видалення та результати менеджменту над користувачами в чаті.*/
             #region Chat Internal Events
 
             // Підписка на подію надходження нового повідомлення
-            _hubConnection.On<Message, int>("ReceivedMessage", (message, chatId) =>
+            _hubConnection.On<TextMessage, int>("ReceivedMessage", (message, chatId) =>
             {
                 // Виклик події надходження повідомлення
                 OnMessageReceived?.Invoke(message, chatId);
@@ -214,13 +196,15 @@ namespace uchat.Services
             return null;
         }
 
-        public Task SendMessage(int senderId, int chatId, Message message)
+        public async Task SendMessage(int senderId, int chatId, Message message)
         {
-            if(message is TextMessage textMessage)
+            if(_hubConnection != null)
             {
-
+                if (message is TextMessage textMessage)
+                {
+                    await _hubConnection.SendAsync("SendTextMessageInChat", senderId, chatId, textMessage);
+                }
             }
-            throw new NotImplementedException();
         }
 
         public HubConnectionState? GetConnectionState()
@@ -321,6 +305,40 @@ namespace uchat.Services
             }
 
             return null;
+        }
+
+        public async Task<List<TextMessage>?> GetChatMessages(int chatId)
+        {
+            if(_hubConnection != null)
+            {
+                return await _hubConnection.InvokeAsync<List<TextMessage>>("GetChatMessages", chatId, 0, 50);
+            }
+
+            return null;
+        }
+
+        public async Task DeleteMessage(int chatId, int messageId)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("DeleteMessage", chatId, messageId);
+            }
+        }
+
+        public async Task EditMessage(int chatId, int messageId, string newText)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("EditTextMessage", messageId, chatId, newText);
+            }
+        }
+
+        public async Task RemoveOldConnection(int userId)
+        {
+            if(_hubConnection != null)
+            {
+                await _hubConnection.SendAsync("RemoveFromConnectionGroup", userId);
+            }
         }
     }
 }

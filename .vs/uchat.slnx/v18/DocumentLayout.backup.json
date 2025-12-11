@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|c:\\users\\kakoytochel228\\source\\kampus_uchat\\uchat\\uchat\\viewmodels\\vmpages\\mainpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CFFDA7-D4E2-1B92-6AE1-26C53483BB3B}|uchat\\uchat.csproj|solutionrelative:uchat\\viewmodels\\vmpages\\mainpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMPages\\MainPageViewModel.cs",
+              "RelativeDocumentMoniker": "uchat\\ViewModels\\VMPages\\MainPageViewModel.cs",
+              "ToolTip": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\ViewModels\\VMPages\\MainPageViewModel.cs",
+              "RelativeToolTip": "uchat\\ViewModels\\VMPages\\MainPageViewModel.cs",
+              "ViewState": "AgIAAAgBAAAAAAAAAAA4wA0BAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T03:07:23.615Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

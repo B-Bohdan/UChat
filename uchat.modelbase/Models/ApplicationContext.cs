@@ -9,6 +9,8 @@ namespace uchat.Models
     /// </summary>
     public class ApplicationContext : DbContext
     {
+        // Необходим для идентификации где запущен контекст
+        public static bool IsClientMode { get; set; } = false;
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
@@ -30,17 +32,16 @@ namespace uchat.Models
                 entity.HasKey(u => u.Id);
                 entity.Property(u => u.Email).IsRequired().HasMaxLength(255);
                 entity.HasIndex(u => u.Email).IsUnique();
-                entity.Property(u => u.UserStatus).HasConversion<string>();
             });
 
-            // налаштування Chat та зв'язків
+            // Налаштування Chat та зв'язків
             modelBuilder.Entity<Chat>(entity =>
             {
                 entity.HasKey(c => c.Id);
 
                 entity.HasMany(c => c.Participants)
-                      .WithMany(u => u.Chats)      
-                      .UsingEntity(j => j.ToTable("ChatParticipants")); // Говоримо EF явно назвати проміжну таблицю "ChatParticipants"
+                      .WithMany(u => u.Chats)
+                      .UsingEntity(j => j.ToTable("ChatParticipants")); // Проміжна таблиця
             });
 
             // Налаштування Message
@@ -59,7 +60,7 @@ namespace uchat.Models
                       .WithMany()
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Наслідування для типів повідомлень
+                // Наслідування для типів повідомлень (Discriminator)
                 entity.HasDiscriminator<string>("MessageType")
                       .HasValue<TextMessage>("Text")
                       .HasValue<Message>("Base");
@@ -70,6 +71,24 @@ namespace uchat.Models
             {
                 entity.Property(t => t.Text).IsRequired();
             });
+
+            // Если IsClientMode = true (в App.xaml.cs), то ID не генерируются (берем с сервера).
+            // Если IsClientMode = false (по умолчанию на сервере), то ID генерирует БД.
+
+            if (IsClientMode)
+            {
+                // КЛиент (WPF): Запрещаем БД создавать ID, мы их вставим сами
+                modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedNever();
+                modelBuilder.Entity<Chat>().Property(c => c.Id).ValueGeneratedNever();
+                modelBuilder.Entity<Message>().Property(m => m.Id).ValueGeneratedNever();
+            }
+            else
+            {
+                // Сервер (ASP.NET): Разрешаем БД создавать ID (Автоинкремент)
+                modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
+                modelBuilder.Entity<Chat>().Property(c => c.Id).ValueGeneratedOnAdd();
+                modelBuilder.Entity<Message>().Property(m => m.Id).ValueGeneratedOnAdd();
+            }
         }
     }
 }

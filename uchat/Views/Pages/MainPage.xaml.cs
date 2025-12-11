@@ -12,13 +12,16 @@ namespace uchat.Views.Pages
         private IDbContextFactory<ApplicationContext> _databaseModelFactory;
         private INavigationService _navigationService;
         private MainPageViewModel _mainPageViewModel;
+        private ChatPageViewModel _chatPageViewModel;
 
-        public MainPage(MainPageViewModel viewModel, IDbContextFactory<ApplicationContext> databaseModelFactory, 
-            MenuPage menuPage, FoundedUserPage foundedUserPage, ChatInfoPage chatInfoPage, SearchInviteChatPage searchInviteChatPage, INavigationService navigationService)
+        public MainPage(MainPageViewModel viewModel, ChatPageViewModel chatPageViewModel, IDbContextFactory<ApplicationContext> databaseModelFactory, 
+            MenuPage menuPage, FoundedUserPage foundedUserPage, ChatInfoPage chatInfoPage, 
+            SearchInviteChatPage searchInviteChatPage, INavigationService navigationService)
         {
             InitializeComponent();
             this.DataContext = viewModel;
             _mainPageViewModel = viewModel;
+            _chatPageViewModel = chatPageViewModel;
             _databaseModelFactory = databaseModelFactory;
             _navigationService = navigationService;
 
@@ -44,6 +47,7 @@ namespace uchat.Views.Pages
             {
                 noSelectedChatHint.Visibility = Visibility.Collapsed;
                 _navigationService.ChangePage<ChatPage>(chatAreaFrame);
+                _chatPageViewModel.LoadMessageHistoryCommand.Execute(null);
             } 
         }
     }

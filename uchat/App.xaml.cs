@@ -20,8 +20,16 @@ namespace uchat
     // + 1.2 - Обновить создание чата, добавив возможность задавать название
     // + 1.3 - Реализовать инструменты лива из чата и приглашения в чат
     // + 1.4 - Реализовать отображение списка участников чата
-    // 2. Добавить обмен сообщениями в чате
-    // 2.1 Реализовать контекстное меню, и функционал обновления и удаления сообщений в чате
+    // + 2. Добавить обмен сообщениями в чате
+    // + 2.1 - Реализовать подгрузку сообщений из локалки и хоста
+    // + 2.1 - Реализовать контекстное меню, и функционал обновления и удаления сообщений в чате
+
+    // Финальные штришки
+    // 1. Исправить формат времени у сообщений +
+    // 2. Стилизировать ScrollBar'ы +
+    // 3. Сделать авто прокрутку чата +
+    // 4. Сделать отправку сообщения по Enter +
+    // 5. Попробовать исправить ошибку с списком чатов при ре-логине
 
     public partial class App : Application
     {
@@ -88,6 +96,8 @@ namespace uchat
         protected async override void OnStartup(StartupEventArgs e)
         {
             IninitializeServices();
+
+            ApplicationContext.IsClientMode = true;
 
             // Ініціалізуємо конфігурацію додатку
             IConfigurationService configurationService = Services.GetRequiredService<IConfigurationService>();
@@ -160,15 +170,15 @@ namespace uchat
             // Підключення фабрики для контексту БД
             serviceCollection.AddDbContextFactory<ApplicationContext>(options =>
             {
-                string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string folderPath = Path.Combine(appDataFolder, "UChat");
+                //string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                //string folderPath = Path.Combine(appDataFolder, "UChat");
 
-                // Перевіряє або створює директорію
-                Directory.CreateDirectory(folderPath);
+                //// Перевіряє або створює директорію
+                //Directory.CreateDirectory(folderPath);
 
-                string dbPath = Path.Combine(folderPath, "ApplicationDB.db");
+                //string dbPath = Path.Combine(folderPath, "ApplicationDB.db");
 
-                options.UseSqlite($"Data Source={dbPath}");
+                options.UseSqlite($"Data Source=ApplicationDB.db");
             });
 
             // Підключення сторінок у DI контейнер
@@ -204,5 +214,4 @@ namespace uchat
             Services = serviceCollection.BuildServiceProvider();
         }
     }
-
 }

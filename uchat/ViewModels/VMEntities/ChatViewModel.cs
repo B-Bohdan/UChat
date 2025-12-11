@@ -10,7 +10,7 @@ namespace uchat.ViewModels.VMEntities
         {
             Messages = new ObservableCollection<MessageViewModel>();
             Participants = new ObservableCollection<UserViewModel>(
-                model.Participants.Select(u => new UserViewModel(u))
+                model.Participants!.Select(u => new UserViewModel(u))
             );
         }
 
@@ -49,7 +49,7 @@ namespace uchat.ViewModels.VMEntities
             Messages.Add(messageVm);
 
             // Додаємо до моделі
-            if (!Model.Messages.Contains(messageVm.Model))
+            if (!Model.Messages!.Contains(messageVm.Model))
             {
                 Model.Messages.Add(messageVm.Model);
             }

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using uchat.modelbase.Models;
+using uchat.modelbase.Models.Messages;
 using uchat.Models;
 using uchat.Services.IServices;
 using uchat.ViewModels.Tools;
@@ -21,6 +23,10 @@ namespace uchat.ViewModels.VMPages
             _mainPageViewModel = mainPageViewModel;
             FoundedUsersToAdd = new ObservableCollection<UserViewModel>();
             ParticipantsOfSelectedChat = new ObservableCollection<UserViewModel>();
+
+            ConnectionService.OnMessageReceived += ConnectionService_OnMessageReceived;
+            ConnectionService.OnMessageDeleted += ConnectionService_OnMessageDeleted;
+            ConnectionService.OnTextMessageEdited += ConnectionService_OnTextMessageEdited;
         }
 
         #region
@@ -34,6 +40,13 @@ namespace uchat.ViewModels.VMPages
         {
             get => _enteredUserEmail;
             set { _enteredUserEmail = value; OnPropertyChanged(); }
+        }
+
+        private string? _messageToSend;
+        public string? MessageToSend
+        {
+            get => _messageToSend;
+            set { _messageToSend = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -137,9 +150,204 @@ namespace uchat.ViewModels.VMPages
                 return _searchForUserCommand;
             }
         }
+
+        private ICommand? _loadMessageHistoryCommand;
+        public ICommand LoadMessageHistoryCommand
+        {
+            get
+            {
+                if(_loadMessageHistoryCommand == null)
+                {
+                    _loadMessageHistoryCommand = new RelayCommand(new Action<object>(LoadMessageHistory));
+                }
+
+                return _loadMessageHistoryCommand;
+            }
+        }
+
+        private ICommand? _sendMessageCommand;
+        public ICommand SendMessageCommand
+        {
+            get
+            {
+                if (_sendMessageCommand == null)
+                {
+                    _sendMessageCommand = new RelayCommand(new Action<object>(SendMessage));
+                }
+
+                return _sendMessageCommand;
+            }
+        }
+
+        private ICommand? _editMessageCommand;
+        public ICommand EditMessageCommand
+        {
+            get
+            {
+                if(_editMessageCommand == null)
+                {
+                    _editMessageCommand = new RelayCommand(new Action<object>(EditMessage));
+                }
+
+                return _editMessageCommand;
+            }
+        }
+
+        private ICommand? _deleteMessageCommand;
+        public ICommand DeleteMessageCommand
+        {
+            get
+            {
+                if (_deleteMessageCommand == null)
+                {
+                    _deleteMessageCommand = new RelayCommand(new Action<object>(DeleteMessage));
+                }
+
+                return _deleteMessageCommand;
+            }
+        }
+
+        private ICommand? _cancelEditingModeCommand;
+        public ICommand CancelEditingModeCommand
+        {
+            get
+            {
+                if (_cancelEditingModeCommand == null)
+                {
+                    _cancelEditingModeCommand = new RelayCommand(new Action<object>(CancelEditingMode));
+                }
+
+                return _cancelEditingModeCommand;
+            }
+        }
         #endregion
 
         #region Methods
+
+        #region Event handlers
+
+        private void ConnectionService_OnMessageReceived(Message message, int chatId)
+        {
+            if(message is TextMessage textMessage)
+            {
+                using (var context = DbContextFactory.CreateDbContext())
+                {
+                    Chat? chat = context.Chats.FirstOrDefault(c => c.Id == chatId);
+
+                    if (chat != null)
+                    {
+                        TextMessageViewModel textMessageView = new TextMessageViewModel(textMessage, 
+                            ApplicationState.LoggedUser!.Id, new UserViewModel(textMessage.Sender));
+
+                        SaveIncomingMessageToLocalDb(textMessage);
+
+                        ChatViewModel? chatViewModel = ApplicationState.Chats!.FirstOrDefault(c => c.Model.Id == chatId);
+                        //chatViewModel!.Model.Messages = new List<Message>();
+
+                        if (chatViewModel == null)
+                            return;
+
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            chatViewModel.AddMessage(textMessageView);
+                        });
+                    }
+                }
+            }
+        }
+
+        private async void ConnectionService_OnMessageDeleted(int messageId, int chatId)
+        {
+            using(var context = DbContextFactory.CreateDbContext())
+            {
+                await context.Messages.Where(m => m.Id == messageId).ExecuteDeleteAsync();
+                await context.SaveChangesAsync();
+
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var chatViewModel = ApplicationState.Chats!.FirstOrDefault(c => c.Model.Id == chatId);
+
+                    if(chatViewModel == null) 
+                        return;
+
+                    var messageViewModel = chatViewModel.Messages.FirstOrDefault(m => m.Model.Id == messageId);
+
+                    if(messageViewModel == null)
+                        return;
+
+                    chatViewModel.Messages.Remove(messageViewModel);
+                });
+            }
+        }
+
+        private async void ConnectionService_OnTextMessageEdited(int messageId, int chatId, string newText)
+        {
+            using (var context = DbContextFactory.CreateDbContext())
+            {
+                await context.TextMessages.Where(m => m.Id == messageId)
+                    .ExecuteUpdateAsync(m => m
+                        .SetProperty(m => m.Text, newText)
+                        .SetProperty(m => m.IsEdited, true));
+
+                await context.SaveChangesAsync();
+
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var chatViewModel = ApplicationState.Chats!.FirstOrDefault(c => c.Model.Id == chatId);
+
+                    if (chatViewModel == null)
+                        return;
+
+                    var messageViewModel = chatViewModel.Messages.FirstOrDefault(m => m.Model.Id == messageId) as TextMessageViewModel;
+
+                    if (messageViewModel == null)
+                        return;
+
+                    messageViewModel.Text = newText;
+                    messageViewModel.IsEdited = true;
+                });
+            }
+        }
+        #endregion
+
+        public void SaveIncomingMessageToLocalDb(TextMessage textMessage)
+        {
+            using (var context = DbContextFactory.CreateDbContext()) // Укажите ваш путь к БД
+            {
+                bool messageExists = context.Messages.Any(m => m.Id == textMessage.Id);
+
+                if (messageExists)
+                {
+                    return;
+                }
+
+                // Проверка отправителя
+                var senderInDb = context.Users.AsNoTracking().FirstOrDefault(u => u.Id == textMessage.Sender.Id);
+                if (senderInDb == null)
+                {
+                    var newUser = textMessage.Sender;
+                    newUser.Chats = null!;
+                    context.Users.Add(newUser);
+                }
+                else
+                {
+                    context.Entry(textMessage.Sender).State = EntityState.Unchanged;
+                }
+
+                // Сохранение сообщения
+                textMessage.ChatInstance = null!;
+                context.Entry(textMessage).State = EntityState.Added;
+
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Ошибка сохранения: {ex.Message}");
+                }
+            }
+        }
 
         private async void OpenChatMenu(object obj)
         {
@@ -236,6 +444,65 @@ namespace uchat.ViewModels.VMPages
                     await ConnectionService.LeaveChat(loggedUser.Id, selectedChat.Model.Id);
                 }
             }
+        }
+
+        private async void SendMessage(object obj)
+        {
+            if (!string.IsNullOrWhiteSpace(MessageToSend))
+            {
+                if (!ApplicationState.IsInMessageEditingMode)
+                {
+                    await ConnectionService.SendMessage(
+                        ApplicationState.LoggedUser!.Id,
+                        ApplicationState.SelectedChat!.Model.Id,
+                        new TextMessage() { Text = MessageToSend });
+                }
+                else
+                {
+                    await ConnectionService.EditMessage(ApplicationState.SelectedChat!.Model.Id, 
+                        ApplicationState.CurrentMessageInEditing!.Model.Id, MessageToSend);
+
+                    ApplicationState.IsInMessageEditingMode = false;
+                }
+
+                MessageToSend = string.Empty;
+            }
+        }
+
+        private void LoadMessageHistory(object obj)
+        {
+
+        }
+
+        private async void DeleteMessage(object obj)
+        {
+            if(obj is TextMessageViewModel textMessageViewModel)
+            {
+                WarningDialog warningDialog = 
+                    new WarningDialog("Are you sure you want to delete this message for everyone?", App.Current.MainWindow);
+
+                if(warningDialog.ShowDialog() == true)
+                {
+                    await ConnectionService.DeleteMessage(textMessageViewModel.Model.Id, ApplicationState.SelectedChat!.Model.Id);
+                }
+            }
+        }
+
+        private void EditMessage(object obj)
+        {
+            if(obj is TextMessageViewModel textMessageView)
+            {
+                ApplicationState.IsInMessageEditingMode = true;
+                ApplicationState.CurrentMessageInEditing = textMessageView;
+
+                MessageToSend = textMessageView.Text;
+            }
+        }
+
+        private void CancelEditingMode(object obj)
+        {
+            ApplicationState.IsInMessageEditingMode = false;
+            MessageToSend = string.Empty;
         }
         #endregion
     }

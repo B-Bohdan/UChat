@@ -60,18 +60,5 @@ namespace uchat.ViewModels.VMEntities
         }
 
         public DateTime CreatedAt => Model.CreatedAt;
-
-        public User.Status UserStatus
-        {
-            get => Model.UserStatus;
-            set
-            {
-                if (Model.UserStatus != value)
-                {
-                    Model.UserStatus = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
     }
 }

@@ -197,7 +197,7 @@ namespace uchat.ViewModels.VMPages
             using (var context = DbContextFactory.CreateDbContext())
             {
                 // 2. Обнуляем навигационные свойства, чтобы разорвать граф
-                chat.Messages = null;
+                //chat.Messages = null;
                 chat.Participants = null; // ВАЖНО: убираем связь с "чужими" объектами User
 
                 // 3. Добавляем "чистый" чат. Теперь EF не ругается, так как вложенностей нет.
@@ -280,11 +280,15 @@ namespace uchat.ViewModels.VMPages
 
                 using (var context = DbContextFactory.CreateDbContext())
                 {
-                    await context.Users.ExecuteDeleteAsync();
-                    await context.Chats.ExecuteDeleteAsync();
                     await context.Messages.ExecuteDeleteAsync();
+                    await context.Chats.ExecuteDeleteAsync();
+                    await context.Users.ExecuteDeleteAsync();                    
                     await context.SaveChangesAsync();
                 }
+
+                //ApplicationState.Chats!.Clear();
+
+                await ConnectionService.RemoveOldConnection(ApplicationState.LoggedUser!.Id);
 
                 ApplicationState.LoggedUser = null;
 

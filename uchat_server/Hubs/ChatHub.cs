@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using uchat.modelbase.Models;
 using uchat.modelbase.Models.Messages;
 using uchat.Models;
@@ -29,19 +30,46 @@ namespace uchat_server.Hubs
             return user;
         }
 
+        // 1. Метод получения списка чатов (Только с последним сообщением)
         public async Task<List<Chat>> GetUserChats(int userId)
         {
-            // Завантажуємо всі чати, в яких бере участь користувач
             var chats = await _applicationContext.Chats
                 .Include(c => c.Participants)
                 .Where(c => c.Participants!.Any(p => p.Id == userId))
+                .Select(c => new Chat
+                {
+                    Id = c.Id,
+                    Tag = c.Tag,
+                    CreatedAt = c.CreatedAt,
+                    Participants = c.Participants,
+
+                    // ИСПРАВЛЕНИЕ ТУТ:
+                    Messages = c.Messages!
+                                .OfType<TextMessage>()    // 1. Фильтруем только TextMessage (EF это умеет)
+                                .OrderByDescending(m => m.SentAt)
+                                .Take(1)
+                                .Cast<Message>()          // 2. Приводим обратно к Message для списка
+                                .ToList()
+                })
                 .ToListAsync();
 
-            //Debug.WriteLine($"\nCOUNT OF THE ITEMS{chats.Count}\n");
-            //_logger.LogInformation($"\nCOUNT OF ITEMS FOR RETURN {chats.Count}\n");
-            //_logger.LogInformation($"\nCOUNT OF ITEMS IN TABLE {_applicationContext.Chats.Count()}\n");
-
             return chats;
+        }
+
+        // 2. Новый метод для получения истории (пагинация пока не реализована, грузим N последних)
+        public async Task<List<TextMessage>> GetChatMessages(int chatId, int skip = 0, int take = 50)
+        {
+            // Обращаемся сразу к таблице TextMessages, чтобы EF Core отфильтровал только текстовые сообщения
+            var messages = await _applicationContext.TextMessages
+                .Where(m => m.ChatId == chatId)
+                .Include(m => m.Sender) // Обязательно грузим автора!
+                .OrderByDescending(m => m.SentAt) // Сортируем от новых к старым для пагинации
+                .Skip(skip)
+                .Take(take)
+                .OrderBy(m => m.SentAt) // Разворачиваем обратно в хронологическом порядке для UI
+                .ToListAsync();
+
+            return messages;
         }
 
         public async Task<List<User>?> GetParticipantsList(int chatId)
@@ -83,11 +111,21 @@ namespace uchat_server.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
         }
 
-        //// Видаляє його з групи підключень, щоб сервер більше не надсилав йому інформацію з цього чату
-        //public async Task LeaveChatGroup(int chatId)
-        //{
-        //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
-        //}
+        // Видаляє його з групи підключень
+        public async Task RemoveFromConnectionGroup(int userId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"User_{userId}");
+
+            var userChats = await _applicationContext.Chats
+                    .Where(c => c.Participants!.Any(p => p.Id == userId))
+                    .Select(c => c.Id)
+                    .ToListAsync();
+
+            foreach (var chatId in userChats)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Chat_{chatId}");
+            }
+        }
 
         #region Message Interactions
         public async Task SendTextMessageInChat(int senderId, int chatId, TextMessage textMessage)
@@ -98,12 +136,38 @@ namespace uchat_server.Hubs
             if (chat != null && sender != null)
             {
                 textMessage.ChatInstance = chat;
+                textMessage.ChatId = chatId;
                 textMessage.Sender = sender;
+                textMessage.SentAt = DateTime.UtcNow;
+
+                textMessage.Id = 0;
 
                 await _applicationContext.Messages.AddAsync(textMessage);
                 await _applicationContext.SaveChangesAsync();
 
-                await Clients.Group($"Chat_{chatId}").SendAsync("ReceivedMessage", textMessage);
+                var messageToSend = new TextMessage
+                {
+                    Id = textMessage.Id,
+                    Text = textMessage.Text,
+                    SentAt = textMessage.SentAt,
+                    ChatId = chatId,
+                    IsEdited = textMessage.IsEdited,
+
+                    Sender = new User
+                    {
+                        Id = sender.Id,
+                        Email = sender.Email,
+                        FirstName = sender.FirstName,
+                        LastName = sender.LastName
+                    },
+                    ChatInstance = null!
+                };
+
+                await Clients.Group($"Chat_{chatId}").SendAsync("ReceivedMessage", messageToSend, chat.Id);
+            }
+            else
+            {
+                await Clients.Group($"Chat_{chatId}").SendAsync("ErrorReceived", "Chat or sender is null");
             }
         }
 
@@ -156,7 +220,6 @@ namespace uchat_server.Hubs
                         LastName = safeLastName,
                         Email = safeEmail,
                         CreatedAt = DateTime.UtcNow.Date,
-                        UserStatus = User.Status.Online
                     };
 
                     await _applicationContext.Users.AddAsync(newUser);
@@ -202,6 +265,8 @@ namespace uchat_server.Hubs
             {
                 await Groups.AddToGroupAsync(context.ConnectionId, $"Chat_{chatId}");
             }
+
+            //await Clients.Group($"Chat_{userChats.First()}").SendAsync("ErrorReceived", "Hello World");
         }
 
         public async Task<User?> FindUserByEmail(string emailAddress)
