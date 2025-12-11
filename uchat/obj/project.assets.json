@@ -1578,11 +1578,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
+      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat\\uchat.csproj",
       "projectName": "uchat",
-      "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\uchat.csproj",
+      "projectPath": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat\\uchat.csproj",
       "packagesPath": "C:\\Users\\KakoytoChel228\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat\\obj\\",
+      "outputPath": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1604,8 +1604,8 @@
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj": {
-              "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj"
+            "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat.modelbase\\uchat.modelbase.csproj": {
+              "projectPath": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat.modelbase\\uchat.modelbase.csproj"
             }
           }
         }

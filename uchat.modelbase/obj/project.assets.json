@@ -1015,11 +1015,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
+      "projectUniqueName": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
       "projectName": "uchat.modelbase",
-      "projectPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
+      "projectPath": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat.modelbase\\uchat.modelbase.csproj",
       "packagesPath": "C:\\Users\\KakoytoChel228\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KakoytoChel228\\source\\kampus_uchat\\UChat\\uchat.modelbase\\obj\\",
+      "outputPath": "C:\\Users\\KakoytoChel228\\source\\UCHAT\\UChat\\uchat.modelbase\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
