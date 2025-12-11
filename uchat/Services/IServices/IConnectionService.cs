@@ -8,6 +8,7 @@ namespace uchat.Services.IServices
     {
         public event Action? OnConnected;
         public event Action? OnDisconnected;
+        public event Action? OnReconnecting;
 
         // Common events
         public event Action<User>? OnAuthorizationConfirmed;

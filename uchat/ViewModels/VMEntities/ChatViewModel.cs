@@ -46,27 +46,50 @@ namespace uchat.ViewModels.VMEntities
         {
             get
             {
-                if (Model.Messages == null || !Model.Messages.Any())
-                    return "No messages yet";
+                if (Messages.Count > 0)
+                {
+                    var lastVm = Messages.Last();
 
-                var lastMsg = Model.Messages.OrderByDescending(m => m.SentAt).FirstOrDefault();
-                if (lastMsg is TextMessage txt) return txt.Text;
+                    if (lastVm is TextMessageViewModel txtVm)
+                        return txtVm.Text;
+
+                    return "Media message"; // Мабуть в майбутньому...
+                }
+
                 return "No messages yet";
             }
         }
 
         public void AddMessage(MessageViewModel messageVm)
         {
-            // В UI
-            Messages.Add(messageVm);
 
-            // В Модель (с защитой от null)
+            // Если список пуст или сообщение новее последнего - добавляем в конец (оптимизация)
+            if (Messages.Count == 0 || Messages.Last().SentAt <= messageVm.SentAt)
+            {
+                Messages.Add(messageVm);
+            }
+            // Если сообщение старее первого - добавляем в начало (оптимизация для подгрузки истории)
+            else if (Messages.First().SentAt > messageVm.SentAt)
+            {
+                Messages.Insert(0, messageVm);
+            }
+            else
+            {
+                // Иначе ищем правильное место (от старых к новым)
+                int index = 0;
+                while (index < Messages.Count && Messages[index].SentAt < messageVm.SentAt)
+                {
+                    index++;
+                }
+                Messages.Insert(index, messageVm);
+            }
+
             if (Model.Messages == null)
             {
                 Model.Messages = new List<Message>();
             }
 
-            if (!Model.Messages.Contains(messageVm.Model))
+            if (!Model.Messages.Any(m => m.Id == messageVm.Model.Id))
             {
                 Model.Messages.Add(messageVm.Model);
             }

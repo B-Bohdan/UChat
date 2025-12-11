@@ -14,8 +14,6 @@ namespace uchat.ViewModels
         private readonly IDbContextFactory<ApplicationContext> ContextFactory;
         private readonly IConnectionService _connectionService;
 
-        // ГЛОБАЛЬНОЕ СТАТИЧЕСКОЕ СВОЙСТВО
-        // Позволяет любой ViewModel узнать ID текущего пользователя без передачи параметров
         public static int CurrentUserId { get; private set; }
 
         public AppState(IConnectionService connectionService, IDbContextFactory<ApplicationContext> contextFactory, IConfigurationService configurationService)
@@ -68,7 +66,6 @@ namespace uchat.ViewModels
             {
                 _loggeduser = value;
 
-                // АВТОМАТИЧЕСКОЕ ОБНОВЛЕНИЕ ID
                 CurrentUserId = _loggeduser?.Id ?? 0;
 
                 OnPropertyChanged();
@@ -150,15 +147,15 @@ namespace uchat.ViewModels
         private async Task SaveMessagesToLocalDbAndUi(ChatViewModel chatVm, List<TextMessage> messages)
         {
             // Обновляем UI
-            App.Current.Dispatcher.Invoke(() =>
+            await App.Current.Dispatcher.InvokeAsync(() =>
             {
                 foreach (var msg in messages)
                 {
-                    // Проверяем, нет ли уже такого сообщения в ViewModel
+                    // Проверяем по ID, чтобы не добавлять дубликаты (например, превью уже есть в списке)
                     if (!chatVm.Messages.Any(vm => vm.Model.Id == msg.Id))
                     {
-                        // Используем фабрику Create. Она сама определит тип и возьмет CurrentUserId.
                         var msgVm = MessageViewModel.Create(msg);
+                        // Теперь AddMessage сам найдет правильное место (в начале списка) для старого сообщения
                         chatVm.AddMessage(msgVm);
                     }
                 }
@@ -218,7 +215,7 @@ namespace uchat.ViewModels
         // Обновление списка чатов (после логина или при старте)
         public async Task SaveChatsDataAsync(IEnumerable<Chat> incomingChats)
         {
-            // 1. Обновляем UI
+            // Обновляем UI
             App.Current.Dispatcher.Invoke(() =>
             {
                 // Если коллекции нет - создаем
@@ -254,7 +251,7 @@ namespace uchat.ViewModels
                 }
             });
 
-            // 2. Сохраняем структуру чатов в БД
+            // Сохраняем структуру чатов в БД
             await Task.Run(async () =>
             {
                 using (var context = ContextFactory.CreateDbContext())

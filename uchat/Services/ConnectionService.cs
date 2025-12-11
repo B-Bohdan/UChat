@@ -23,6 +23,7 @@ namespace uchat.Services
 
         public event Action? OnConnected;
         public event Action? OnDisconnected;
+        public event Action? OnReconnecting;
 
         public event Action<User>? OnAuthorizationConfirmed;
         public event Action<User?>? OnUserFound;
@@ -41,6 +42,24 @@ namespace uchat.Services
             _localContextFactory = dbContextFactory;
         }
 
+        private async Task _hubConnection_Reconnected(string? arg)
+        {
+            OnConnected?.Invoke();
+            await Task.CompletedTask;
+        }
+
+        private async Task _hubConnection_Closed(Exception? arg)
+        {
+            OnDisconnected?.Invoke();
+            await Task.CompletedTask;
+        }
+
+        private async Task _hubConnection_Reconnecting(Exception? arg)
+        {
+            OnReconnecting?.Invoke();
+            await Task.CompletedTask;
+        }
+
         public async Task InitializeConnection(string serverBaseUrl)
         {
             _hubConnection = new HubConnectionBuilder()
@@ -48,15 +67,12 @@ namespace uchat.Services
                 .WithAutomaticReconnect()
                 .Build();
 
+            _hubConnection.Reconnected += _hubConnection_Reconnected;
+            _hubConnection.Reconnecting += _hubConnection_Reconnecting;
+            _hubConnection.Closed += _hubConnection_Closed;
+
             // Запускаем
             await StartAsync();
-
-            // Підписка на подію закриття з'єднання
-            _hubConnection.Closed += async (error) =>
-            {
-                OnDisconnected?.Invoke();
-                await Task.CompletedTask;
-            };
 
             _hubConnection.On<string>("ErrorReceived", (errorMessage) =>
             {

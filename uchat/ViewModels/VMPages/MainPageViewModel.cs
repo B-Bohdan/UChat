@@ -27,6 +27,36 @@ namespace uchat.ViewModels.VMPages
 
             ConnectionService.OnAddedToChat += ConnectionService_OnAddedToChat;
             ConnectionService.OnSuccessfullyLeavedTheChat += ConnectionService_OnSuccessfullyLeavedTheChat;
+            ConnectionService.OnConnected += ConnectionService_OnConnected;
+            ConnectionService.OnDisconnected += ConnectionService_OnDisconnected;
+            ConnectionService.OnReconnecting += ConnectionService_OnReconnecting;
+        }
+
+        private void ConnectionService_OnReconnecting()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                InfoDialog infoDialog = new InfoDialog("Reconnecting to host...", App.Current.MainWindow);
+                infoDialog.ShowDialog();
+            });
+        }
+
+        private void ConnectionService_OnDisconnected()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                InfoDialog infoDialog = new InfoDialog("Connection with the host have been lost.", App.Current.MainWindow);
+                infoDialog.ShowDialog();
+            });
+        }
+
+        private void ConnectionService_OnConnected()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                InfoDialog infoDialog = new InfoDialog("Connection have been successfully extablished.", App.Current.MainWindow);
+                infoDialog.ShowDialog();
+            });
         }
 
         #region Properties
