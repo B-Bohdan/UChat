@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace uchat
@@ -14,6 +15,13 @@ namespace uchat
         public MainWindow()
         {
             InitializeComponent();
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // Скасовуємо закриття
+            e.Cancel = true;
+            // Просто ховаємо вікно з екрану
+            this.Hide();
         }
     }
 }

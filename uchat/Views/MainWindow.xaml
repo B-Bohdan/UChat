@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:uchat"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:vm="clr-namespace:uchat.ViewModels.VMWindows"
         mc:Ignorable="d"
         Title="Nexoria"
         MinHeight="550"
@@ -14,12 +16,26 @@
     <!--Пізніше тут реалізуємо кастомний titlebar, 
     тому головну сторінку розмістимо в окремому файлі 
     та будемо вигружати її у Frame-->
-    
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <tb:TaskbarIcon
+            IconSource="/Views/Assets/tray.ico"
+            ToolTipText="Uchat Massager"
+            DoubleClickCommand="{Binding ShowWindowCommand}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Command="{Binding ShowWindowCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Close" Command="{Binding ExitApplicationCommand}"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
 
         <Frame
             x:Name="RootFrame"

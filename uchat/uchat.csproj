@@ -17,6 +17,7 @@
     <None Remove="Views\Assets\edit.png" />
     <None Remove="Views\Assets\google.png" />
     <None Remove="Views\Assets\invite.png" />
+    <None Remove="Views\Assets\logo.ico" />
     <None Remove="Views\Assets\menu.png" />
     <None Remove="Views\Assets\search.png" />
     <None Remove="Views\Assets\send.png" />
@@ -31,6 +32,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Auth" Version="1.73.0" />
     <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.68.0.1869" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
@@ -62,6 +64,9 @@
     <Resource Include="Views\Assets\invite.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Views\Assets\logo.ico" />
+    <Resource Include="Views\Assets\tray.ico" />
+    
     <Resource Include="Views\Assets\menu.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
